@@ -1,9 +1,9 @@
 from django.forms import ModelForm
 
-from app.models import Person
+from app.models import Household
 
-class PersonForm (ModelForm) :
+class HouseholdForm (ModelForm) :
 
     class Meta :
-        model = Person
+        model = Household
         exclude = ['created_at', 'created_by']

@@ -1,7 +1,8 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import User
 
-from app.models import Province, Commune, Zone, Profession, Quartier
+from app.models import Household, Province, Commune, Zone, Profession, Quartier
 
 class Person (models.Model):
 
@@ -16,10 +17,12 @@ class Person (models.Model):
         ('Male', 'Male'), ('Female', 'Female')
     )
 
+    menage = models.ForeignKey(Household, on_delete=models.CASCADE)
     nom = models.CharField(max_length=15)
     prenom = models.CharField(max_length=15)
-    numero_carte_id = models.CharField(max_length=30, unique=True)
-    lieu_de_delivrance = models.CharField(max_length=30)
+    genre = models.CharField(choices=gender,max_length=20)
+    numero_carte_id = models.CharField(max_length=30, unique=True, null=True)
+    lieu_de_delivrance = models.CharField(max_length=30, null=True)
     province_de_residence = models.ForeignKey(Province, on_delete=models.CASCADE)
     commune_de_residence = models.ForeignKey(Commune, on_delete=models.CASCADE)
     zone_de_residence = models.ForeignKey(Zone, on_delete=models.CASCADE)
@@ -31,9 +34,38 @@ class Person (models.Model):
     nom_de_la_mere = models.CharField(max_length=30)
     profession = models.ForeignKey(Profession, on_delete = models.CASCADE)
     numero_telephone = PhoneNumberField(null=True)
-    relation_avec_chefs_de_menage = models.CharField(choices=relationship_with_parents,max_length=20, null=True)
-    photo = models.ImageField(upload_to='app/photos/')
-    est_chef_de_manage = models.BooleanField(default=False)
+    relation_avec_chefs_de_menage = models.CharField(choices=relationship_with_parents,max_length=20)
+    photo = models.ImageField(upload_to='app/photos/', null=True)
+
+    est_chef_de_menage = models.BooleanField(default=False)
+    est_verifie_par_chef_de_menage = models.BooleanField(default=False)
+    est_verifie_par_chef_de_route = models.BooleanField(default=False)
+    est_verifie_par_chef_de_quartier = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.prenom} {self.nom}"
+    
+    def save(self, *args, **kwargs):
+        if not self.id: 
+            self.created_by = kwargs.pop('request').user
+        super().save(*args, **kwargs)
+
+    # to make the save method working
+
+    # def my_view(request):
+    # if request.method == 'POST':
+    #     form = MyForm(request.POST)
+    #     if form.is_valid():
+    #         instance = form.save(commit=False)
+    #         instance.save(request=request)  # Pass the request object to the save() method
+    #         # Rest of the view logic
+    # else:
+    #     form = MyForm()
+    
+    # context = {
+    #     'form': form
+    # }
+    # return render(request, 'my_template.html', context)
