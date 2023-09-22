@@ -66,7 +66,7 @@ def edit_zone(request, id):
         if id == 0:
             form = ZoneForm()
         else:
-            zone = zone.objects.get(pk=id)
+            zone = Zone.objects.get(pk=id)
             form = ZoneForm(instance=zone)
         context = {
             'form': form,
@@ -84,7 +84,7 @@ def update_zone(request, id):
         if id == 0:
             form = ZoneForm(request.POST)
         else:
-            zone = zone.objects.get(pk=id)
+            zone = Zone.objects.get(pk=id)
             form = ZoneForm(request.POST, instance=zone)
         if form.is_valid():
             form.save()

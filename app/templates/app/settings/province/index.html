@@ -4,7 +4,7 @@
 
 {% load crispy_forms_tags %}
 
-<button onclick="window.location.href='{% url 'add_province' %}'" type="button" class="btn btn-outline-primary mb-2"><i
+<button onclick="window.location.href='{% url 'add_province' %}'" class="btn btn-outline-primary mb-2"><i
         class="bi bi-plus">Ajouter province</i></button>
 {% if provinces_list %}
 
@@ -24,39 +24,44 @@
 {% endfor %}
 {% endif %}
 
-<div class="col-lg-12">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">{{page_title}}</h5>
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{page_title}}</h5>
 
-            <table class="table datatable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">NOM DE LA PROVINCE</th>
-                        <th scope="col">ACTIONS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for province in provinces_list %}
-                    <tr>
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <td>{{ province.province }}</td>
-                        <td>
-                            <a href="{% url 'edit_province' province.id %}" style="margin-right: 30px;"><i
-                                    class="ri ri-edit-2-fill text-primary"></i></a>
-                            <a href="{% url 'delete_province' province.id %}"
-                                onclick="return confirm('Voulez-vous vraiment supprimer ?')"><i
-                                    class="ri ri-delete-bin-2-fill text-danger"></i></a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">NOM DE LA PROVINCE</th>
+                                <th scope="col">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for province in provinces_list %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ province.province }}</td>
+                                <td>
+                                    <a href="{% url 'edit_province' province.id %}" style="margin-right: 30px;"><i
+                                            class="ri ri-edit-2-fill text-primary"></i></a>
+                                    <a href="{% url 'delete_province' province.id %}"
+                                        onclick="return confirm('Voulez-vous vraiment supprimer ?')"><i
+                                            class="ri ri-delete-bin-2-fill text-danger"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
+
+</section>
 
 
 {% else %}
