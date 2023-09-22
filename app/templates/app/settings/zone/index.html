@@ -1,0 +1,88 @@
+{% extends 'app/layouts/default.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<button onclick="window.location.href='{% url 'add_zone' %}'" class="btn btn-outline-primary mb-2"><i
+        class="bi bi-plus">Ajouter zone</i></button>
+{% if zones_list %}
+
+{% comment %} {% if messages %}
+{% for message in messages %}
+<p class="alert alert-success w-100 h-100">{{ message }} </p>
+{% endfor %}
+{% endif %} {% endcomment %}
+
+{% if messages %}
+{% for message in messages %}
+<div id="myAlert" class="alert alert-success alert-dismissible" role="alert">
+    <i class="fas fa-check-circle me-1"></i>
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{page_title}}</h5>
+
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">PROVINCE</th>
+                                <th scope="col">COMMUNE</th>
+                                <th scope="col">ZONE</th>
+                                <th scope="col">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for zone in zones_list %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ zone.province.province }}</td>
+                                <td>{{ zone.commune.commune }}</td>
+                                <td>{{ zone.zone }}</td>
+                                <td>
+                                    <a href="{% url 'edit_zone' zone.id %}" style="margin-right: 30px;"><i
+                                            class="ri ri-edit-2-fill text-primary"></i></a>
+                                    <a href="{% url 'delete_zone' zone.id %}"
+                                        onclick="return confirm('Voulez-vous vraiment supprimer ?')"><i
+                                            class="ri ri-delete-bin-2-fill text-danger"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+{% else %}
+<p class="text-center text-danger" style="font-size: 20px; line-height: 1.5;">PAS DE ZONE ENREGISTREE</p>
+{% endif %}
+
+<script>
+
+    var alertElement = document.getElementById('myAlert');
+    setTimeout(function () {
+        alertElement.classList.add('fade');
+        alertElement.classList.add('show');
+        setTimeout(function () {
+            alertElement.remove();
+        }, 1500);
+    }, 2000);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'app/layouts/default.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{page_title}}</h5>
+                    <form action="{% url 'store_commune' %}" method="POST" class="mt-3">
+                        {% csrf_token %}
+                        <div class="form-group"> {{ form|crispy}}</div>
+                        <div class="text-center mt-3 mb-3">
+                            <button type="submit" style="margin-right: 30px;"
+                                class="btn btn-outline-success">Ajouter</button>
+                            <button type="reset" class="btn btn-outline-danger">Reinitialiser</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

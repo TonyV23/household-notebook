@@ -2,42 +2,37 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{% include 'app/layouts/head.html' %}
+{% include 'app/partials/head.html' %}
 
 <body>
 
     <!-- ======= Header ======= -->
-    {% include 'app/layouts/navbar.html' %}
+    {% include 'app/partials/navbar.html' %}
     <!-- End Header -->
 
     <!-- ======= Sidebar ======= -->
-    {% include 'app/layouts/sidebar.html' %}
+    {% include 'app/partials/sidebar.html' %}
     <!-- End Sidebar-->
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Dashboard</h1>
+            <h1>Tableau de bord</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Accueil</a></li>
+                    <li class="breadcrumb-item active">Tableau de bord</li>
                 </ol>
             </nav>
         </div>
 
-        <section class="section dashboard">
-            <div class="row">
-                {% block content %}
-                {% endblock%}
-            </div>
-        </section>
+        {% block content %}{% endblock %}
 
     </main>
 
 
     <!-- ======= Footer ======= -->
-    {% include 'app/layouts/footer.html' %}
+    {% include 'app/partials/footer.html' %}
     <!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
