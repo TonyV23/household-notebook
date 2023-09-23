@@ -46,10 +46,10 @@
                                 <td>{{ profession.profession }}</td>
                                 <td>
                                     <a href="{% url 'edit_profession' profession.id %}" style="margin-right: 30px;"><i
-                                            class="ri ri-edit-2-fill text-primary"></i></a>
+                                            class="bi bi-pencil"></i></a>
                                     <a href="{% url 'delete_profession' profession.id %}"
                                         onclick="return confirm('Voulez-vous vraiment supprimer ?')"><i
-                                            class="ri ri-delete-bin-2-fill text-danger"></i></a>
+                                            class="bi bi-trash text-danger"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}
