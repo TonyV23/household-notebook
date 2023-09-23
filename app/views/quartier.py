@@ -97,5 +97,5 @@ def update_quartier(request, id):
 def delete_quartier(request, id):
     quartier = Quartier.objects.get(pk=id)
     quartier.delete()
-    messages.success(request, "Quartier supprimée")
+    messages.success(request, "Quartier supprimé")
     return redirect('/quartier')
