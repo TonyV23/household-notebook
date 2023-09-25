@@ -4,9 +4,9 @@
 
 {% load crispy_forms_tags %}
 
-<button onclick="window.location.href='{% url 'add_profession' %}'" class="btn btn-outline-primary mb-2"><i
-        class="bi bi-plus">Ajouter profession</i></button>
-{% if professions_list %}
+<button onclick="window.location.href='{% url 'add_household' %}'" class="btn btn-outline-primary mb-2"><i
+        class="bi bi-plus">Ajouter menage</i></button>
+{% if households_list %}
 
 {% comment %} {% if messages %}
 {% for message in messages %}
@@ -35,19 +35,31 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">NOM DE LA PROFESSION</th>
+                                <th scope="col">CHEF DE MENAGE</th>
+                                <th scope="col">PROVINCE</th>
+                                <th scope="col">COMMUNE</th>
+                                <th scope="col">ZONE</th>
+                                <th scope="col">QUARTIER</th>
+                                <th scope="col">ID MENAGE</th>
+                                <th scope="col">CREE LE</th>
                                 <th scope="col">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for profession in professions_list %}
+                            {% for household in households_list %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ profession.profession }}</td>
+                                <td>{{ household.designation }}</td>
+                                <td>{{ household.province.province }}</td>
+                                <td>{{ household.commune.commune }}</td>
+                                <td>{{ household.zone.zone }}</td>
+                                <td>{{ household.quartier.quartier }}</td>
+                                <td>{{ household.id }}</td>
+                                <td>{{ household.created_at }}</td>
                                 <td>
-                                    <a href="{% url 'edit_profession' profession.id %}" style="margin-right: 30px;"><i
+                                    <a href="{% url 'edit_household' household.id %}" style="margin-right: 30px;"><i
                                             class="bi bi-pencil"></i></a>
-                                    <a href="{% url 'delete_profession' profession.id %}"
+                                    <a href="{% url 'delete_household' household.id %}"
                                         onclick="return confirm('Voulez-vous vraiment supprimer ?')"><i
                                             class="bi bi-trash text-danger"></i></a>
                                 </td>
@@ -65,7 +77,7 @@
 
 
 {% else %}
-<p class="text-center text-danger" style="font-size: 20px; line-height: 1.5;">PAS DE PROFESSION ENREGISTREE</p>
+<p class="text-center text-danger" style="font-size: 20px; line-height: 1.5;">PAS DE MENAGE ENREGISTREE</p>
 {% endif %}
 
 <script>

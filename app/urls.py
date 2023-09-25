@@ -1,6 +1,6 @@
 from django.urls import path
 
-from app.views import home, province, commune, zone, quartier, profession
+from app.views import home, province, commune, zone, quartier, profession, household, user
 
 urlpatterns = [
     path('', home.index, name ='dashboard'),
@@ -39,4 +39,14 @@ urlpatterns = [
     path('quartier/edit/<int:id>', quartier.edit_quartier, name ='edit_quartier'),
     path('quartier/update/<int:id>', quartier.update_quartier, name ='update_quartier'),
     path('quartier/delete/<int:id>', quartier.delete_quartier, name ='delete_quartier'),
+
+    path('household', household.index, name ='view_household'),
+    path('household/add', household.add_household, name ='add_household'),
+    path('household/store', household.store_household, name ='store_household'),
+    path('household/edit/<int:id>', household.edit_household, name ='edit_household'),
+    path('household/update/<int:id>', household.update_household, name ='update_household'),
+    path('household/delete/<int:id>', household.delete_household, name ='delete_household'),
+
+    path('type_account', user.account_type, name='type_account_overview'),
+    
 ]
