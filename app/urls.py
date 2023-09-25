@@ -1,6 +1,6 @@
 from django.urls import path
 
-from app.views import home, province, commune, zone, quartier, profession, household, user
+from app.views import home, province, commune, zone, quartier, profession, household, user, auth
 
 urlpatterns = [
     path('', home.index, name ='dashboard'),
@@ -48,5 +48,17 @@ urlpatterns = [
     path('household/delete/<int:id>', household.delete_household, name ='delete_household'),
 
     path('type_account', user.account_type, name='type_account_overview'),
-    
+    path('account/list_chef_family', user.index_chef_family, name='account_overview_chef_family'),
+    path('account/list_chef_quarter', user.index_chef_quarter, name='account_overview_chef_quarter'),
+    path('type_account/new_chef_family', user.add_user_chef_family, name='new_account_chef_family'),
+    path('type_account/new_chef_quarter', user.add_user_chef_quarter, name='new_account_chef_quarter'),
+    path('type_account/store/chef_family', user.store_user_chef_family, name='store_user_chef_family'),
+    path('type_account/store/chef_quarter', user.store_user_chef_quarter, name='store_user_chef_quarter'),
+    path('type_account/edit/<int:id>', user.edit_user, name='edit_user'),
+    path('type_account/update/<int:id>', user.update_user, name='update_user'),
+    path('type_account/delete/<int:id>', user.delete_user, name='delete_user'),
+
+    path('login', auth.login_user, name='login_user'),
+    path('logout', auth.logout_user, name='logout_user')
+
 ]
