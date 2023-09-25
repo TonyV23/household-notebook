@@ -6,10 +6,8 @@ class UserForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-            'first_name',
-            'last_name',
-            'email',
             'username',
+            'email',
             'password1',
             'password2'
         ]
@@ -18,8 +16,6 @@ class UserEditInfoForm(UserChangeForm):
     class Meta:
         model = User
         fields = [
-            'first_name',
-            'last_name',
             'email',
             'username'
         ]
