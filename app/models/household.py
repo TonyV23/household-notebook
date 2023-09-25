@@ -11,15 +11,15 @@ class Household(models.Model):
     quartier = models.ForeignKey(Quartier, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.designation
     
-    def save(self, *args, **kwargs):
-        if not self.id: 
-            self.created_by = kwargs.pop('request').user
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.id: 
+    #         self.created_by = kwargs.pop('request').user
+    #     super().save(*args, **kwargs)
 
     # to make the save method working
 

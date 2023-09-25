@@ -1,19 +1,39 @@
 {
   "cSpell.words": [
+    "ainsi",
     "Alain",
+    "Confirmez",
+    "créées",
+    "Créer",
     "delivrance",
     "Divin",
     "DUSABE",
+    "enregistrée",
     "Gaël",
+    "gérer",
+    "groupo",
+    "househlod",
     "IGIRANEZA",
+    "introuvable",
     "MEMBRE",
+    "membres",
     "modelfields",
+    "modifiée",
     "phonenumber",
+    "pourra",
+    "propres",
     "quartiers",
     "qurtier",
     "qurtiers",
+    "recherchez",
+    "supprimée",
     "Urlich",
     "verifie",
-    "Visiteur"
-  ]
+    "Visiteur",
+    "visiteurs"
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none"
 }

@@ -4,3 +4,7 @@ from .commune import *
 from .zone import *
 from .quartier import *
 from .profession import *
+from .household import *
+from .user import *
+from .error import *
+from .auth import *
