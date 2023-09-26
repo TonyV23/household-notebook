@@ -3,48 +3,59 @@
 {% load static %}
 
 {% block content %}
-
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
                 <div class="d-flex justify-content-center py-4">
-                    <a href="" class="logo d-flex align-items-center w-auto">
-                        <img src="{% static 'app/img/logo.png' %}" alt="">
-                        <span class="d-none d-lg-block">GESTION CAHIER DE MENAGE</span>
+                    <a href="#" class="logo d-flex align-items-center w-auto">
+                        <span class="d-none d-lg-block">CAHIERS DE MENAGE</span>
                     </a>
-                </div><!-- End Logo -->
+                </div>
 
                 <div class="card mb-3">
 
                     <div class="card-body">
 
                         <div class="pt-4 pb-2">
-                            <h5 class="card-title text-center pb-0 fs-4">Connectez-vous à votre compte</h5>
+                            <h5 class="card-title text-center pb-0 fs-4">Se connecter</h5>
                         </div>
+                        {% comment %} {% if messages %}
+                        {% for message in messages %}
+                        <p class="alert alert-success w-100 h-100">{{ message }} </p>
+                        {% endfor %}
+                        {% endif %} {% endcomment %}
 
-                        <form class="row g-3 needs-validation" novalidate>
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-octagon me-1"></i>
+                            {{message}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
 
+                        <form action="" method="post" class="row g-3">
+                            {% csrf_token %}
                             <div class="col-12">
-                                <label for="yourUsername" class="form-label">Username</label>
-                                <div class="input-group has-validation">
-                                    <input type="text" name="username" class="form-control" id="yourUsername" required>
-                                    <div class="invalid-feedback">Saisir votre nom d'utilisateur</div>
+                                <label for="username" class="form-label">Nom utilisateur</label>
+                                <div class="input-group">
+                                    <input type="text" name="username" class="form-control" id="username" required
+                                        autocomplete="">
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <label for="yourPassword" class="form-label">Mot de passe</label>
-                                <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                <div class="invalid-feedback">Please enter your password!</div>
+                                <label for="password" class="form-label">Mot de passe</label>
+                                <input type="password" name="password" class="form-control" id="password" required>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-12 p-2">
                                 <button class="btn btn-primary w-100" type="submit">Se connecter</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -53,4 +64,16 @@
 
 </section>
 
+<script>
+
+    var alertElement = document.getElementById('myAlert');
+    setTimeout(function () {
+        alertElement.classList.add('fade');
+        alertElement.classList.add('show');
+        setTimeout(function () {
+            alertElement.remove();
+        }, 1500);
+    }, 2000);
+
+</script>
 {% endblock %}
