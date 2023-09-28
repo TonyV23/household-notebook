@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from app.models import Person, Household, Province, Commune, Zone, Profession, Quartier
 from app.forms import PersonForm
 
+
 def index(request):
     page_title = 'Membres de famille'
     template = 'app/settings/person/family/index.html'
@@ -70,9 +71,7 @@ def store_family_member(request):
         form = PersonForm(request.POST)
         if form.is_valid():
             form.save()
-            # instance = form.save(commit=False)
-            # instance.save(request=request)
-            messages.success(request, "Données du membre enregistrée !")
+            messages.success(request, "Données du membre modifiées !")
         else:
             messages.error(request, form.errors)
         return redirect('/family_members')
@@ -113,8 +112,7 @@ def update_family_member(request, id):
 
 
 def delete_family_member(request, id):
-    person = Household.objects.get(pk=id)
+    person = Person.objects.get(pk=id)
     person.delete()
     messages.success(request, "Données du membre supprimée")
     return redirect('/family_members')
-
