@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, visitor
 
@@ -48,7 +50,7 @@ urlpatterns = [
     path('household/delete/<int:id>', household.delete_household, name ='delete_household'),
 
     path('type_account', user.account_type, name='type_account_overview'),
-    path('account/list_chef_family', user.index_chef_family, name=' '),
+    path('account/list_chef_family', user.index_chef_family, name='account_overview_chef_family'),
     path('account/list_chef_quarter', user.index_chef_quarter, name='account_overview_chef_quarter'),
     path('type_account/new_chef_family', user.add_user_chef_family, name='new_account_chef_family'),
     path('type_account/new_chef_quarter', user.add_user_chef_quarter, name='new_account_chef_quarter'),
@@ -77,4 +79,4 @@ urlpatterns = [
     path('visitor/update/<int:id>', visitor.update_visitor, name='update_visitor'),
     path('visitor/delete/<int:id>', visitor.delete_visitor, name='delete_visitor'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
