@@ -39,7 +39,6 @@ class Person (models.Model):
 
     est_chef_de_menage = models.BooleanField(default=False)
     est_verifie_par_chef_de_menage = models.BooleanField(default=False)
-    est_verifie_par_chef_de_route = models.BooleanField(default=False)
     est_verifie_par_chef_de_quartier = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
