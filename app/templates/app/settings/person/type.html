@@ -1,0 +1,40 @@
+{% extends 'app/layouts/default.html' %}
+
+{% block content %}
+{% load user_tags %}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">AJOUTER UN MEMBRE DE FAMILLE</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p class="card-text">Un parent ou un enfant de la famille</p>
+                    {% if user|user_belongs_to_group:'chef_family' %}
+                    <a href="{% url 'add_family_member' %}" class="btn btn-outline-primary mr-2"> <i
+                            class="bi bi-save"></i> Nouveau membre</a>
+                    {% endif %}
+                    <a href="{% url 'family_members_overview' %}" class="btn btn-outline-primary"> <i
+                            class="bi- bi-eye"></i> Voir les membres</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">AJOUTER UN VISITEUR</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p class="card-text">Un membre de la famille , un employer de maison ou un visiteur simple</p>
+                    {% if user|user_belongs_to_group:'chef_family' %}
+                    <a href="{% url 'add_visitor' %}" class="btn btn-outline-primary mr-2"> <i class="bi bi-save"></i>
+                        Nouveau visiteur</a>
+                    {% endif %}
+                    <a href="{% url 'visitors_overview' %}" class="btn btn-outline-primary"> <i class="bi- bi-eye"></i>
+                        Voir les visiteurs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

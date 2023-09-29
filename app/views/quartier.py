@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
 from app.models import Province, Commune, Zone, Quartier
 from app.forms import QuartierForm
 
-
+@login_required(login_url ='login')
 def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des quartiers'
@@ -22,7 +23,7 @@ def index(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def add_quartier(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter un quartier'
@@ -48,7 +49,7 @@ def add_quartier(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def store_quartier(request):
     if request.method == 'POST':
         form = QuartierForm(request.POST)
@@ -59,7 +60,7 @@ def store_quartier(request):
             messages.error(request, form.errors)
         return redirect('/quartier')
 
-
+@login_required(login_url ='login')
 def edit_quartier(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier le quartier'
@@ -80,7 +81,7 @@ def edit_quartier(request, id):
             context=context
         )
 
-
+@login_required(login_url ='login')
 def update_quartier(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -93,9 +94,9 @@ def update_quartier(request, id):
         messages.success(request, "Quartier modifié")
         return redirect('/quartier')
 
-
+@login_required(login_url ='login')
 def delete_quartier(request, id):
     quartier = Quartier.objects.get(pk=id)
     quartier.delete()
-    messages.success(request, "Quartier supprimée")
+    messages.success(request, "Quartier supprimé")
     return redirect('/quartier')

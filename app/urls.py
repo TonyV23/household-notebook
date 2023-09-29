@@ -1,6 +1,8 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
-from app.views import home, province, commune, zone, quartier, profession
+from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, visitor
 
 urlpatterns = [
     path('', home.index, name ='dashboard'),
@@ -39,4 +41,42 @@ urlpatterns = [
     path('quartier/edit/<int:id>', quartier.edit_quartier, name ='edit_quartier'),
     path('quartier/update/<int:id>', quartier.update_quartier, name ='update_quartier'),
     path('quartier/delete/<int:id>', quartier.delete_quartier, name ='delete_quartier'),
-]
+
+    path('household', household.index, name ='view_household'),
+    path('household/add', household.add_household, name ='add_household'),
+    path('household/store', household.store_household, name ='store_household'),
+    path('household/edit/<int:id>', household.edit_household, name ='edit_household'),
+    path('household/update/<int:id>', household.update_household, name ='update_household'),
+    path('household/delete/<int:id>', household.delete_household, name ='delete_household'),
+
+    path('type_account', user.account_type, name='type_account_overview'),
+    path('account/list_chef_family', user.index_chef_family, name='account_overview_chef_family'),
+    path('account/list_chef_quarter', user.index_chef_quarter, name='account_overview_chef_quarter'),
+    path('type_account/new_chef_family', user.add_user_chef_family, name='new_account_chef_family'),
+    path('type_account/new_chef_quarter', user.add_user_chef_quarter, name='new_account_chef_quarter'),
+    path('type_account/store/chef_family', user.store_user_chef_family, name='store_user_chef_family'),
+    path('type_account/store/chef_quarter', user.store_user_chef_quarter, name='store_user_chef_quarter'),
+    path('type_account/edit/<int:id>', user.edit_user, name='edit_user'),
+    path('type_account/update/<int:id>', user.update_user, name='update_user'),
+    path('type_account/delete/<int:id>', user.delete_user, name='delete_user'),
+
+    path('login', auth.login_user, name='login'),
+    path('logout', auth.logout_user, name='logout'),
+
+    path('family_or_visitor', person.person_type, name='family_visitor_overview'),
+    path('family_members', person.index, name='family_members_overview'),
+    path('family/add', person.add_family_member, name='add_family_member'),
+    path('family/store', person.store_family_member, name='store_family_member'),
+    path('family/edit/<int:id>', person.edit_family_member, name='edit_family_member'),
+    path('family/update/<int:id>', person.update_family_member, name='update_family_member'),
+    path('family/delete/<int:id>', person.delete_family_member, name='delete_family_member'),
+
+
+    path('visitors', visitor.index, name='visitors_overview'),
+    path('visitor/add', visitor.add_visitor, name='add_visitor'),
+    path('visitor/store', visitor.store_visitor, name='store_visitor'),
+    path('visitor/edit/<int:id>', visitor.edit_visitor, name='edit_visitor'),
+    path('visitor/update/<int:id>', visitor.update_visitor, name='update_visitor'),
+    path('visitor/delete/<int:id>', visitor.delete_visitor, name='delete_visitor'),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

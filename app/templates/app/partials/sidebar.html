@@ -1,34 +1,60 @@
 <aside id="sidebar" class="sidebar">
-
+  {% load user_tags %}
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link " href="index.html">
+      <a class="nav-link " href="{% url 'dashboard'%}">
         <i class="bi bi-grid"></i>
         <span>Tableau de bord</span>
       </a>
     </li>
-
-    <li class="nav-heading">GESTION MENAGE</li>
+    {% if user.is_superuser %}
+    <li class="nav-heading">GESTION APPLICATION</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="users-profile.html">
-        <i class="bi bi-person"></i>
-        <span>Profile</span>
+      <a class="nav-link collapsed" href="{% url 'type_account_overview' %}">
+        <i class="bi bi-people"></i>
+        <span>COMPTES</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="{% url 'view_profession' %}">
-        <i class="bi bi-journal-text"></i>
-        <span>Profession</span>
+      <a class="nav-link collapsed" href="{% url 'view_household' %}">
+        <i class="bi bi-house-door"></i>
+        <span>MENAGES</span>
       </a>
     </li>
-    
+    {% endif %}
 
+
+    {% if user|user_belongs_to_group:'chef_quarter' %}
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'view_household' %}">
+        <i class="bi bi-house-door"></i>
+        <span>MENAGES</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'family_visitor_overview' %}">
+        <i class="bi bi-people"></i>
+        <span>FAMILLE/VISITEURS</span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if user|user_belongs_to_group:'chef_family' %}
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'family_visitor_overview' %}">
+        <i class="bi bi-people"></i>
+        <span>FAMILLE/VISITEURS</span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if user.is_superuser %}
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-menu-button-wide"></i><span>Addresse</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-menu-button-wide"></i><span>ADDRESSE</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -53,6 +79,21 @@
         </li>
       </ul>
     </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>AUTRES</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{% url 'view_profession' %}">
+            <i class="bi bi-circle"></i><span>Profession</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    {% endif %}
+
   </ul>
 
 </aside>

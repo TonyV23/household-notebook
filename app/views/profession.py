@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
 from app.models import Profession
 from app.forms import ProfessionForm
 
-
+@login_required(login_url ='login')
 def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des professions'
@@ -22,7 +23,7 @@ def index(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def add_profession(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter une profession'
@@ -42,7 +43,7 @@ def add_profession(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def store_profession(request):
     if request.method == 'POST':
         form = ProfessionForm(request.POST)
@@ -53,7 +54,7 @@ def store_profession(request):
             messages.error(request, form.errors)
         return redirect('/profession')
 
-
+@login_required(login_url ='login')
 def edit_profession(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier la profession'
@@ -76,7 +77,7 @@ def edit_profession(request, id):
             context=context
         )
 
-
+@login_required(login_url ='login')
 def update_profession(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -89,7 +90,7 @@ def update_profession(request, id):
         messages.success(request, "Profession modifiée ")
         return redirect('/profession')
 
-
+@login_required(login_url ='login')
 def delete_profession(request, id):
     profession = Profession.objects.get(pk=id)
     profession.delete()
