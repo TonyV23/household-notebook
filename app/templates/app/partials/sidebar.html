@@ -1,5 +1,5 @@
 <aside id="sidebar" class="sidebar">
-
+  {% load user_tags %}
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
@@ -26,7 +26,21 @@
     </li>
     {% endif %}
 
-    {% load user_tags %}
+
+    {% if user|user_belongs_to_group:'chef_quarter' %}
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'view_household' %}">
+        <i class="bi bi-house-door"></i>
+        <span>MENAGES</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'family_visitor_overview' %}">
+        <i class="bi bi-people"></i>
+        <span>FAMILLE/VISITEURS</span>
+      </a>
+    </li>
+    {% endif %}
 
     {% if user|user_belongs_to_group:'chef_family' %}
     <li class="nav-item">
