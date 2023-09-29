@@ -1,6 +1,7 @@
 {% extends 'app/layouts/default.html' %}
 
 {% block content %}
+{% load user_tags %}
 
 <section class="section">
     <div class="row">
@@ -12,6 +13,7 @@
                     <p class="card-text">Avec ce compte le chef de famille pourra se connecter à son compte et gérer les
                         differentes informations
                         des membres de sa famille ainsi que les visiteurs dans sa menage</p>
+                    {% if user|user_belongs_to_group:'chef_family' %}
                     <a href="{% url 'new_account_chef_family' %}" class="btn btn-outline-primary mr-2"> <i
                             class="bi bi-save"></i> Nouveau compte</a>
                     {% endif %}
