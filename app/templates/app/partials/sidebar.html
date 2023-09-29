@@ -8,7 +8,7 @@
         <span>Tableau de bord</span>
       </a>
     </li>
-
+    {% if user.is_superuser %}
     <li class="nav-heading">GESTION APPLICATION</li>
 
     <li class="nav-item">
@@ -24,15 +24,20 @@
         <span>MENAGES</span>
       </a>
     </li>
+    {% endif %}
 
-    
+    {% load user_tags %}
+
+    {% if user|user_belongs_to_group:'chef_family' %}
     <li class="nav-item">
       <a class="nav-link collapsed" href="{% url 'family_visitor_overview' %}">
         <i class="bi bi-people"></i>
         <span>FAMILLE/VISITEURS</span>
       </a>
     </li>
+    {% endif %}
 
+    {% if user.is_superuser %}
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-menu-button-wide"></i><span>ADDRESSE</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -73,6 +78,7 @@
         </li>
       </ul>
     </li>
+    {% endif %}
 
   </ul>
 
