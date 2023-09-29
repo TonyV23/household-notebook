@@ -13,10 +13,9 @@
                     <p class="card-text">Avec ce compte le chef de famille pourra se connecter à son compte et gérer les
                         differentes informations
                         des membres de sa famille ainsi que les visiteurs dans sa menage</p>
-                    {% if user|user_belongs_to_group:'chef_family' %}
                     <a href="{% url 'new_account_chef_family' %}" class="btn btn-outline-primary mr-2"> <i
                             class="bi bi-save"></i> Nouveau compte</a>
-                    {% endif %}
+
                     <a href="{% url 'account_overview_chef_family' %}" class="btn btn-outline-primary"> <i
                             class="bi- bi-eye"></i> Voir les comptes créées</a>
                 </div>
@@ -29,10 +28,9 @@
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p class="card-text">Avec ce compte le chef de quartier pourra se connecter et voir les menages dans
                         son propres quartiers et valider les membres et visiteurs de chaque menages</p>
-                    {% if user|user_belongs_to_group:'chef_family' %}
                     <a href="{% url 'new_account_chef_quarter' %}" class="btn btn-outline-primary mr-2"> <i
                             class="bi bi-save"></i> Nouveau compte</a>
-                    {% endif %}
+
                     <a href="{% url 'account_overview_chef_quarter' %}" class="btn btn-outline-primary"> <i
                             class="bi- bi-eye"></i> Voir les comptes créées</a>
                 </div>
