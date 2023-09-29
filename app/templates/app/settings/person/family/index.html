@@ -1,11 +1,14 @@
 {% extends 'app/layouts/default.html' %}
 
 {% block content %}
-
+{% load user_tags %}
+{% load static %}
 {% load crispy_forms_tags %}
 
+{% if user|user_belongs_to_group:'chef_family' %}
 <button onclick="window.location.href='{% url 'add_family_member' %}'" class="btn btn-outline-primary mb-2"><i
         class="bi bi-plus">Ajouter membre</i></button>
+{% endif %}
 {% comment %} {% if messages %}
 {% for message in messages %}
 <p class="alert alert-success w-100 h-100">{{ message }} </p>
@@ -34,13 +37,14 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Id Menage</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prenom</th>
-                                <th scope="col">Nr Carte Id</th>
-                                <th scope="col">QUARTIER</th>
-                                <th scope="col">Date naissance</th>
-                                <th scope="col">Photo</th>
+                                <th scope="col">ID MENAGE</th>
+                                <th scope="col">NOM</th>
+                                <th scope="col">PRENOM</th>
+                                <th scope="col">NR CARTE ID</th>
+                                <th scope="col">CHEF DE MENAGE</th>
+                                <th scope="col">CHEF DE QUARTIER</th>
+                                
+                                <th scope="col">PHOTO</th>
                                 <th scope="col">ACTIONS</th>
                             </tr>
                         </thead>
@@ -52,15 +56,30 @@
                                 <td>{{ family_member.nom }}</td>
                                 <td>{{ family_member.prenom }}</td>
                                 <td>{{ family_member.numero_carte_id }}</td>
-                                <td>{{ family_member.quartier_de_residence.quartier }}</td>
-                                <td>{{ family_member.annee_de_naissance }}</td>
+                                <td>
+                                    {% if family_member.est_verifie_par_chef_de_menage %}
+                                    <img src="{% static 'app/img/icon-yes.svg' %}" alt="">
+                                    {% else %}
+                                    <img src="{% static 'app/img/icon-no.svg' %}" alt="">
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if family_member.est_verifie_par_chef_de_quartier %}
+                                    <img src="{% static 'app/img/icon-yes.svg' %}" alt="">
+                                    {% else %}
+                                    <img src="{% static 'app/img/icon-no.svg' %}" alt="">
+                                    {% endif %}
+                                </td>
+
                                 <td> <img src="media/{{family_member.photo }}" alt="" height="auto" width="50"></td>
                                 <td>
                                     <a href="{% url 'edit_family_member' family_member.id %}"
                                         style="margin-right: 30px;"><i class="bi bi-pencil"></i></a>
+                                    {% if user|user_belongs_to_group:'chef_family' %}
                                     <a href="{% url 'delete_family_member' family_member.id %}"
                                         onclick="return confirm('Voulez-vous vraiment supprimer ?')"><i
                                             class="bi bi-trash text-danger"></i></a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
