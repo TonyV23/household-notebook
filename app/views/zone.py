@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpRequest
 
+from django.contrib.auth.decorators import login_required
+
 from app.models import Province, Commune, Zone
 from app.forms import ZoneForm
 
-
+@login_required(login_url ='login')
 def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des zones'
@@ -22,7 +24,7 @@ def index(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def add_zone(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter une zone'
@@ -46,7 +48,7 @@ def add_zone(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def store_zone(request):
     if request.method == 'POST':
         form = ZoneForm(request.POST)
@@ -57,7 +59,7 @@ def store_zone(request):
             messages.error(request, form.errors)
         return redirect('/zone')
 
-
+@login_required(login_url ='login')
 def edit_zone(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier la zone'
@@ -78,7 +80,7 @@ def edit_zone(request, id):
             context=context
         )
 
-
+@login_required(login_url ='login')
 def update_zone(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -91,7 +93,7 @@ def update_zone(request, id):
         messages.success(request, "Zone modifiée")
         return redirect('/zone')
 
-
+@login_required(login_url ='login')
 def delete_zone(request, id):
     zone = zone.objects.get(pk=id)
     zone.delete()

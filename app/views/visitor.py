@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
-from app.models import Visitor,Household, Province, Commune, Zone, Profession, Quartier
+from app.models import Visitor, Province, Commune, Zone, Profession, Quartier
 from app.forms import VisitorForm
 
+@login_required(login_url ='login')
 def index(request):
     page_title = 'Les visiteurs'
     template = 'app/settings/person/visitor/index.html'
@@ -21,6 +23,7 @@ def index(request):
         context=variable
     )
 
+@login_required(login_url ='login')
 def add_visitor(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Nouveau visiteur'
@@ -50,6 +53,7 @@ def add_visitor(request):
         context=context
     )
 
+@login_required(login_url ='login')
 def store_visitor(request):
     if request.method == 'POST':
         form = VisitorForm(request.POST)
@@ -63,6 +67,7 @@ def store_visitor(request):
         return redirect('/visitors')
 
 
+@login_required(login_url ='login')
 def edit_visitor(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier les données d\'un visiteur'
@@ -83,6 +88,7 @@ def edit_visitor(request, id):
             context=context
         )
 
+@login_required(login_url ='login')
 def update_visitor(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -95,7 +101,7 @@ def update_visitor(request, id):
         messages.success(request, "Données du visiteur modifiées")
         return redirect('/visitors')
 
-
+@login_required(login_url ='login')
 def delete_visitor(request, id):
     visitor = Visitor.objects.get(pk=id)
     visitor.delete()

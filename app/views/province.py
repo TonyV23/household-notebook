@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
 from app.models import Province
 from app.forms import ProvinceForm
 
-
+@login_required(login_url ='login')
 def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des provinces'
@@ -22,7 +23,7 @@ def index(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def add_province(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter une province'
@@ -42,7 +43,7 @@ def add_province(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def store_province(request):
     if request.method == 'POST':
         form = ProvinceForm(request.POST)
@@ -53,7 +54,7 @@ def store_province(request):
             messages.error(request, form.errors)
         return redirect('/province')
 
-
+@login_required(login_url ='login')
 def edit_province(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier la province'
@@ -76,7 +77,7 @@ def edit_province(request, id):
             context=context
         )
 
-
+@login_required(login_url ='login')
 def update_province(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -89,7 +90,7 @@ def update_province(request, id):
         messages.success(request, "Province modifiée ")
         return redirect('/province')
 
-
+@login_required(login_url ='login')
 def delete_province(request, id):
     province = Province.objects.get(pk=id)
     province.delete()
