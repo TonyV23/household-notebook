@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, visitor
 
@@ -77,4 +79,4 @@ urlpatterns = [
     path('visitor/update/<int:id>', visitor.update_visitor, name='update_visitor'),
     path('visitor/delete/<int:id>', visitor.delete_visitor, name='delete_visitor'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
 from app.models import Province, Commune
 from app.forms import CommuneForm
 
 
+@login_required(login_url ='login')
 def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des communes'
@@ -22,7 +24,7 @@ def index(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def add_commune(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter une commune'
@@ -44,7 +46,7 @@ def add_commune(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def store_commune(request):
     if request.method == 'POST':
         form = CommuneForm(request.POST)
@@ -55,7 +57,7 @@ def store_commune(request):
             messages.error(request, form.errors)
         return redirect('/commune')
 
-
+@login_required(login_url ='login')
 def edit_commune(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier la commune'
@@ -76,7 +78,7 @@ def edit_commune(request, id):
             context=context
         )
 
-
+@login_required(login_url ='login')
 def update_commune(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -88,7 +90,7 @@ def update_commune(request, id):
             form.save()
         messages.success(request, "Commune modifiée")
         return redirect('/commune')
-
+@login_required(login_url ='login')
 def delete_commune(request, id) :
     commune = Commune.objects.get(pk = id)
     commune.delete()

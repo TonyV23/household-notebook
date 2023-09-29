@@ -5,13 +5,13 @@ from app.models import Province, Commune, Zone, Quartier
 
 class Household(models.Model):
     designation = models.CharField(max_length=100)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE)
-    commune = models.ForeignKey(Commune, on_delete=models.CASCADE)
-    zone = models.ForeignKey(Zone, on_delete=models.CASCADE)
-    quartier = models.ForeignKey(Quartier, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, on_delete=models.PROTECT)
+    commune = models.ForeignKey(Commune, on_delete=models.PROTECT)
+    zone = models.ForeignKey(Zone, on_delete=models.PROTECT)
+    quartier = models.ForeignKey(Quartier, on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.designation

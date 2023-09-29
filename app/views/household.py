@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
 from app.models import Household, Province, Commune, Zone, Quartier
 from app.forms import HouseholdForm
 
-
+@login_required(login_url ='login')
 def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des menages'
@@ -22,7 +23,7 @@ def index(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def add_household(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter une menage'
@@ -50,7 +51,7 @@ def add_household(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def store_household(request):
     if request.method == 'POST':
         form = HouseholdForm(request.POST)
@@ -63,7 +64,7 @@ def store_household(request):
             messages.error(request, form.errors)
         return redirect('/household')
 
-
+@login_required(login_url ='login')
 def edit_household(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier une menage'
@@ -84,7 +85,7 @@ def edit_household(request, id):
             context=context
         )
 
-
+@login_required(login_url ='login')
 def update_household(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -97,7 +98,7 @@ def update_household(request, id):
         messages.success(request, "Manage modifiée")
         return redirect('/household')
 
-
+@login_required(login_url ='login')
 def delete_household(request, id):
     household = Household.objects.get(pk=id)
     household.delete()

@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
 from app.models import Person, Household, Province, Commune, Zone, Profession, Quartier
 from app.forms import PersonForm
 
+@login_required(login_url ='login')
 def index(request):
     page_title = 'Membres de famille'
     template = 'app/settings/person/family/index.html'
@@ -21,6 +23,7 @@ def index(request):
         context=variable
     )
 
+@login_required(login_url ='login')
 def person_type(request):
     page_title = 'Membre Famille / Visiteur'
     template = 'app/settings/person/type.html'
@@ -35,6 +38,7 @@ def person_type(request):
         context=variable
     )
 
+@login_required(login_url ='login')
 def add_family_member(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Nouveau membre de la famille'
@@ -64,20 +68,18 @@ def add_family_member(request):
         context=context
     )
 
-
+@login_required(login_url ='login')
 def store_family_member(request):
     if request.method == 'POST':
         form = PersonForm(request.POST)
         if form.is_valid():
             form.save()
-            # instance = form.save(commit=False)
-            # instance.save(request=request)
-            messages.success(request, "Données du membre enregistrée !")
+            messages.success(request, "Données du membre modifiées !")
         else:
             messages.error(request, form.errors)
         return redirect('/family_members')
 
-
+@login_required(login_url ='login')
 def edit_family_member(request, id):
     assert isinstance(request, HttpRequest)
     page_title = 'Modifier les données d\'un membre de la famille'
@@ -98,7 +100,7 @@ def edit_family_member(request, id):
             context=context
         )
 
-
+@login_required(login_url ='login')
 def update_family_member(request, id):
     if request.method == 'POST':
         if id == 0:
@@ -111,10 +113,9 @@ def update_family_member(request, id):
         messages.success(request, "Données du membre modifiées")
         return redirect('/family_members')
 
-
+@login_required(login_url ='login')
 def delete_family_member(request, id):
-    person = Household.objects.get(pk=id)
+    person = Person.objects.get(pk=id)
     person.delete()
     messages.success(request, "Données du membre supprimée")
     return redirect('/family_members')
-
