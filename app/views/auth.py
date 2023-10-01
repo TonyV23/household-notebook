@@ -31,8 +31,8 @@ def login_user(request):
         context=variable
     )
 
-
+@login_required(login_url='login')
 def logout_user(request):
     logout(request)
 
-    return redirect('/login')
+    return redirect('/')
