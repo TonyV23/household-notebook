@@ -4,7 +4,7 @@ from app.models import Person
 
 class Visitor(Person):
     date_arrive = models.DateField(auto_now_add=True)
-    date_depart = models.DateField()
+    date_depart = models.DateField(blank=True)
 
     def __str__(self) -> str:
         return f"{self.prenom} {self.nom} (Visiteur)"
