@@ -45,7 +45,6 @@
                                 <th scope="col">DATE DE DEPART</th>
                                 <th scope="col">CHEF DE MANAGE</th>
                                 <th scope="col">CHEF DE QUARTIER</th>
-                                <th scope="col">DATE DE DEPART</th>
                                 <th scope="col">ACTIONS</th>
                             </tr>
                         </thead>
@@ -72,7 +71,6 @@
                                     <img src="{% static 'app/img/icon-no.svg' %}" alt="">
                                     {% endif %}
                                 </td>
-                                <td>{{ visitor.date_depart }}</td>
 
                                 <td>
                                     <a href="{% url 'edit_visitor' visitor.id %}" style="margin-right: 30px;"><i

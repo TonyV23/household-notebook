@@ -16,6 +16,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-xl-6">
+                                    {{ form.menage|as_crispy_field }}
                                     {{ form.nom|as_crispy_field }}
                                     {{ form.prenom|as_crispy_field }}
                                     {{ form.genre|as_crispy_field }}
