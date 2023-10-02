@@ -14,12 +14,46 @@
                     <form action="{% url 'update_visitor' form.instance.pk %}" method="POST" class="mt-3">
                         {% csrf_token %}
                         <div class="form-group">
-                            {{ form|crispy}}
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    {{ form.nom|as_crispy_field }}
+                                    {{ form.prenom|as_crispy_field }}
+                                    {{ form.genre|as_crispy_field }}
+                                    {{ form.numero_carte_id|as_crispy_field }}
+                                    {{ form.lieu_de_delivrance|as_crispy_field }}
+                                </div>
+                                <div class="col-xl-6">
+                                    {{ form.province_de_residence|as_crispy_field }}
+                                    {{ form.commune_de_residence|as_crispy_field }}
+                                    {{ form.zone_de_residence|as_crispy_field }}
+                                    {{ form.quartier_de_residence|as_crispy_field }}
+                                    {{ form.rue|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    {{form.nom_du_pere|as_crispy_field}}
+                                    {{form.nom_de_la_mere|as_crispy_field}}
+                                    {{form.lieu_de_naissance|as_crispy_field}}
+                                    {{form.annee_de_naissance|as_crispy_field}}
+                                    {{form.profession|as_crispy_field}}
+                                </div>
+                                <div class="col-xl-4">
+                                    {{form.numero_telephone|as_crispy_field}}
+                                    {{form.date_depart|as_crispy_field}}
+                                    {{form.relation_avec_chefs_de_menage|as_crispy_field}}
+                                    {{form.photo|as_crispy_field}}
+                                    {{form.est_verifie_par_chef_de_menage|as_crispy_field}}
+                                    {{form.est_verifie_par_chef_de_quartier|as_crispy_field}}
+                                </div>
+                            </div>
+
                         </div>
                         <div class="text-center mt-3 mb-3">
-                            <button type="submit" style="margin-right: 30px;"
-                                class="btn btn-outline-success"><i class="bi bi-pencil"></i> Modifier</button>
-                            <button type="reset" class="btn btn-outline-danger"><i class="bi bi-recycle"></i> Reinitialiser</button>
+                            <button type="submit" style="margin-right: 30px;" class="btn btn-outline-success"><i
+                                    class="bi bi-pencil"></i> Modifier</button>
+                            <button type="reset" class="btn btn-outline-danger"><i class="bi bi-recycle"></i>
+                                Reinitialiser</button>
                         </div>
                     </form>
                 </div>
