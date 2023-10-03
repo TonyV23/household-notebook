@@ -3,9 +3,9 @@
 {% block content %}
 
 <section class="section dashboard">
+    {% if user.is_superuser %}
     <div class="row">
-
-        <div class="col-xxl-4 col-md-4">
+        <div class="col-xxl-6 col-md-4">
             <div class="card info-card sales-card">
 
                 <div class="filter">
@@ -24,10 +24,10 @@
                     </div>
                 </div>
 
+
             </div>
         </div>
-
-        <div class="col-xxl-4 col-md-4">
+        <div class="col-xxl-6 col-md-4">
             <div class="card info-card revenue-card">
 
                 <div class="filter">
@@ -35,47 +35,126 @@
                 </div>
 
                 <div class="card-body">
-                    <h5 class="card-title">TOTAL DES PERSONNES</h5>
+                    <h5 class="card-title">TOTAL DES CITOYENS</h5>
 
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                             <i class="bi bi-people-fill"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>362</h6>
+                            <h6>{{total_persons}}</h6>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-
-        <div class="col-xxl-4 col-xl-12">
-
-            <div class="card info-card customers-card">
-
-                <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Customers</h5>
-
-                    <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h6>1244</h6>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
     </div>
+    {% endif %}
+
+    <!-- charts section -->
+    {% if user.is_superuser %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">CITOYENS PAR QUARTIER</h5>
+
+                    <!-- Bar Chart -->
+                    <div id="barChart"></div>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new ApexCharts(document.querySelector("#barChart"), {
+                                series: [{
+                                    data: [{% for quarter in quarters_occurence.values %} '{{quarter}}', {% endfor %}]
+                                }],
+                            chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                            plotOptions: {
+                            bar: {
+                                borderRadius: 4,
+                                horizontal: true,
+                            }
+                        },
+                            dataLabels: {
+                            enabled: false
+                        },
+                            xaxis: {
+                            categories: [{% for quarter in quarters_occurence.keys %} '{{quarter}}', {% endfor %}],
+                                }
+                            }).render();
+                        });
+                    </script>
+                    <!-- End Bar Chart -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">REPARTITION DES GENRES</h5>
+
+                    <!-- Pie Chart -->
+                    <div id="pieChart"></div>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new ApexCharts(document.querySelector("#pieChart"), {
+                                series: [{{ masculine_gender_occurence }}, {{ feminine_gender_occurence }}],
+                            chart: {
+                            height: 350,
+                            type: 'pie',
+                            toolbar: {
+                                show: true
+                            }
+                        },
+                            labels: ['HOMMES', 'FEMMES']
+                            }).render();
+                        });
+                    </script>
+                    <!-- End Pie Chart -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">CITOYENS PAR PROFESSION</h5>
+
+                    <!-- Doughnut Chart -->
+                    <canvas id="doughnutChart" style="max-height: 400px;"></canvas>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector('#doughnutChart'), {
+                                type: 'doughnut',
+                                data: {
+                                    labels: [{% for profession in profession_occurence.keys %} '{{profession}}', {% endfor %}],
+                                    datasets: [{
+                                        label: 'My First Dataset',
+                                        data: [{% for profession in profession_occurence.values %} '{{profession}}', {% endfor %}],
+                                        backgroundColor: [
+                                            'rgb(255, 99, 132)',
+                                            'rgb(54, 162, 235)',
+                                            'rgb(255, 205, 86)'
+                                        ],
+                                        hoverOffset: 4
+                                    }]
+                                }
+                            });
+                        });
+                    </script>
+                    <!-- End Doughnut CHart -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </section>
 
 {% endblock %}
