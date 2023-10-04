@@ -18,9 +18,11 @@ def index(request):
     total_persons = total_member_family+total_visitors
 
     masculine_gender_occurence = getMasculineOccurrence()
-    feminine_gender_occurence = getFeminineOccurrence()
+    feminine_gender_occurence = getFeminineOccurence()
     quarters_occurence = getQuarterOccurence()
     profession_occurence = getProfessionOccurence()
+    
+    person_registered_per_day = getPersonRegisteredPerDay()
 
     context = {
         'page_title': page_title,
@@ -31,44 +33,26 @@ def index(request):
         'feminine_gender_occurence': feminine_gender_occurence,
         'quarters_occurence': quarters_occurence,
         'profession_occurence': profession_occurence,
+        'person_registered_per_day': person_registered_per_day,
     }
 
     return render(request, template_name=template, context=context)
 
-
-def getFeminineOccurrence():
-    visitor_feminine_occurrence = Visitor.objects.values('genre').filter(genre='Female').annotate(feminine_gender=Count('genre'))
-    person_feminine_occurrence = Person.objects.values('genre').filter(genre='Female').annotate(feminine_gender=Count('genre'))
-
-    feminine_occurrence_list = []
-
-    min_length = min(len(visitor_feminine_occurrence),len(person_feminine_occurrence))
-
-    for i in range(min_length):
-        visitor_occurrence = list(visitor_feminine_occurrence[i].values())[1]
-        person_occurrence = list(person_feminine_occurrence[i].values())[1]
-        total_occurrence = visitor_occurrence + person_occurrence
-        feminine_occurrence_list.append(total_occurrence)
-
-    return feminine_occurrence_list
-
+def getFeminineOccurence() :
+    feminine_gender_occurence = Person.objects.values('genre').filter(genre ='Female').annotate(feminine_gender = Count('genre'))
+    feminine_gender_occurence_list = []
+    for i in range(0,len(feminine_gender_occurence)) :
+        feminine_gender_occurence_list.append(list(feminine_gender_occurence[i].values())[1])
+    
+    return feminine_gender_occurence_list
 
 def getMasculineOccurrence():
-    visitor_masculine_occurrence = Visitor.objects.values('genre').filter(genre='Male').annotate(masculine_gender=Count('genre'))
-    person_masculine_occurrence = Person.objects.values('genre').filter(genre='Male').annotate(masculine_gender=Count('genre'))
-
-    masculine_occurrence_list = []
-
-    min_length = min(len(visitor_masculine_occurrence),len(person_masculine_occurrence))
-
-    for i in range(min_length):
-        visitor_occurrence = list(visitor_masculine_occurrence[i].values())[1]
-        person_occurrence = list(person_masculine_occurrence[i].values())[1]
-        total_occurrence = visitor_occurrence + person_occurrence
-        masculine_occurrence_list.append(total_occurrence)
-
-    return masculine_occurrence_list
-
+    masculine_gender_occurence = Person.objects.values('genre').filter(genre ='Male').annotate(masculine_gender = Count('genre'))
+    masculine_gender_occurence_list = []
+    for i in range(0,len(masculine_gender_occurence)) :
+        masculine_gender_occurence_list.append(list(masculine_gender_occurence[i].values())[1])
+    
+    return masculine_gender_occurence_list
 
 def getQuarterOccurence() :
     get_all_quarters_id = Quartier.objects.values('id')
@@ -92,7 +76,6 @@ def getQuarterOccurence() :
 
     return quarter_person_dict
 
-
 def getProfessionOccurence():
     get_all_profession_ids =  Profession.objects.values('id')
     get_all_profession_ids_list = []
@@ -114,3 +97,8 @@ def getProfessionOccurence():
             profession_dict[get_all_profession_name] = occurence_level_studies
 
     return profession_dict
+
+def getPersonRegisteredPerDay() :
+    person_registered_per_day = Person.objects.extra(select={'day': 'date( created_at )'}).values('day').annotate(available=Count('created_at'))
+    
+    return person_registered_per_day
