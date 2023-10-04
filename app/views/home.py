@@ -99,3 +99,13 @@ def getPersonRegisteredPerDay() :
     person_registered_per_day = Person.objects.extra(select={'day': 'date( created_at )'}).values('day').annotate(available=Count('created_at'))
     
     return person_registered_per_day
+
+def user_profil(request):
+    page_title = 'Mon profil'
+    template = 'app/home/user-profil.html'
+    
+    context = {
+        'page_title': page_title,
+    }
+
+    return render(request, template_name=template, context=context)

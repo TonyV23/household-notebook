@@ -79,4 +79,6 @@ urlpatterns = [
     path('visitor/update/<int:id>', visitor.update_visitor, name='update_visitor'),
     path('visitor/delete/<int:id>', visitor.delete_visitor, name='delete_visitor'),
 
+    path('user_profil', home.user_profil, name='user_profil'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

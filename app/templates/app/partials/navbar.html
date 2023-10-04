@@ -20,13 +20,12 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="{% static 'app/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">{{user.username}}</span>
+                    <img src="{% static 'app/img/nav-pic.jpg' %}" alt="Profile" class="rounded-circle">
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>{{user.username}}</h6>
+                        <h6>Identifiant du compte :{{user.id}}</h6>
                         <!-- <span>Web Designer</span> -->
                     </li>
                     <li>
@@ -34,7 +33,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profil' %}">
                             <i class="bi bi-person"></i>
                             <span>Mon profil</span>
                         </a>
