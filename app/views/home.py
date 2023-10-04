@@ -12,10 +12,7 @@ def index(request):
     template = 'app/home/index.html'
 
     total_households = Household.objects.all().count()
-    total_member_family = Person.objects.all().count()
-    total_visitors = Visitor.objects.all().count()
-
-    total_persons = total_member_family+total_visitors
+    total_persons = Person.objects.all().count()
 
     masculine_gender_occurence = getMasculineOccurrence()
     feminine_gender_occurence = getFeminineOccurence()
