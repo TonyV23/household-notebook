@@ -96,32 +96,35 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">REPARTITION DES GENRES</h5>
+                    <h5 class="card-title">CITOYENS PAR GENRE</h5>
 
-                    <!-- Pie Chart -->
-                    <div id="pieChart"></div>
-
+                    <canvas id="pieChart" style="max-height: 400px;"></canvas>
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
-                            new ApexCharts(document.querySelector("#pieChart"), {
-                                series: [{{ masculine_gender_occurence }}, {{ feminine_gender_occurence }}],
-                            chart: {
-                            height: 350,
-                            type: 'pie',
-                            toolbar: {
-                                show: true
-                            }
-                        },
-                            labels: ['HOMMES', 'FEMMES']
-                            }).render();
+                            new Chart(document.querySelector('#pieChart'), {
+                                type: 'pie',
+                                data: {
+                                    labels: [
+                                        'FEMMES',
+                                        'HOMMES'
+                                    ],
+                                    datasets: [{
+                                        data: [{{ masculine_gender_occurence }}, {{ feminine_gender_occurence }}],
+                                        backgroundColor: [
+                                            'rgb(255, 99, 132)',
+                                            'rgb(54, 162, 235)',
+                                            'rgb(255, 205, 86)'
+                                        ],
+                                        hoverOffset: 4
+                                    }]
+                                }
+                            });
                         });
                     </script>
-                    <!-- End Pie Chart -->
-
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">CITOYENS PAR PROFESSION</h5>
@@ -134,21 +137,57 @@
                                 type: 'doughnut',
                                 data: {
                                     labels: [{% for profession in profession_occurence.keys %} '{{profession}}', {% endfor %}],
-                                    datasets: [{
-                                        label: 'My First Dataset',
-                                        data: [{% for profession in profession_occurence.values %} '{{profession}}', {% endfor %}],
-                                        backgroundColor: [
-                                            'rgb(255, 99, 132)',
-                                            'rgb(54, 162, 235)',
-                                            'rgb(255, 205, 86)'
-                                        ],
-                                        hoverOffset: 4
+                            datasets: [{
+                                label: '',
+                                data: [{% for profession in profession_occurence.values %} '{{profession}}', {% endfor %}],
+                            backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)'
+                        ],
+                            hoverOffset: 4
                                     }]
                                 }
                             });
                         });
                     </script>
                     <!-- End Doughnut CHart -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">ENREGISTREMENT DES CITOYENS PAR JOUR</h5>
+
+                    <!-- Line Chart -->
+                    <canvas id="lineChart" style="max-height: 300px;"></canvas>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector('#lineChart'), {
+                                type: 'line',
+                                data: {
+                                    labels: [{% for person_per_day in person_registered_per_day %} '{{person_per_day.day}}', {% endfor %}],
+                            datasets: [{
+                                label: 'Line Chart',
+                                data: [{% for person_per_day in person_registered_per_day %} '{{person_per_day.available}}', {% endfor %}],
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                      },
+                            options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                  });
+                    </script>
+                    <!-- End Line CHart -->
 
                 </div>
             </div>
