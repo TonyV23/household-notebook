@@ -101,7 +101,7 @@ def getPersonRegisteredPerDay() :
     return person_registered_per_day
 
 def user_profil(request):
-    page_title = 'Mon profil'
+    page_title = 'Profil'
     template = 'app/home/user-profil.html'
     
     context = {

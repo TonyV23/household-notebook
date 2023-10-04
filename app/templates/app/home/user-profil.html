@@ -1,5 +1,6 @@
 {% extends 'app/layouts/default.html' %}
 {% load static %}
+{% load user_tags %}
 
 {% block content %}
 
@@ -45,10 +46,25 @@
 
             <div class="tab-pane fade show active profile-overview" id="profile-overview">
               <h5 class="card-title">A Propos du compte</h5>
-              <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus.
-                Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet
-                perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
 
+              {% if user.is_superuser %}
+              <p class="medium">
+                <strong>Ce compte vous permet de faire la quasi totalité des actions d'un administrateur sauf à creér les
+                membres d'une menage et d'y ajouter les visiteurs chose que vous pouvez faire avec le compte chef de menage</strong>
+              </p>
+              {% endif %}
+
+              {% if user|user_belongs_to_group:'chef_quarter' %}
+              <p class="medium">
+                <strong>Ce compte vous permet de faire la gestion des menages, consulter les membres de chaque menage et de les valider</strong>
+              </p>
+              {% endif %}
+
+              {% if user|user_belongs_to_group:'chef_family' %}
+              <p class="medium">
+                <strong>Ce compte vous permet de faire la gestion de ses propres membres de la famille ainsi que ses visiteurs</strong>
+              </p>
+              {% endif %}
               <h5 class="card-title">Détails sur le profil de l'utilisateur</h5>
 
               <div class="row">
@@ -91,14 +107,15 @@
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
               <!-- Profile Edit Form -->
-              <p> Application de gestion de cahier ménage est conçue pour simplifier et améliorer la gestion des
+              <p class="medium"> <strong>Application de gestion de cahier ménage est conçue pour simplifier et améliorer la gestion des
                 membres d'un ménage ainsi que le suivi des visiteurs au sein d'une famille. <br>Notre objectif est de
-                fournir un outil convivial et efficace pour les chefs de quartier et les responsables de la communauté.
+                fournir un outil convivial et efficace pour les chefs de quartier et les responsables de la communauté.</strong>
                 <br><br>
+                <strong>
                 Notre application permet d'enregistrer les membres de chaque ménage de manière organisée et d'effectuer
-                un suivi précis des mouvements des visiteurs. Les chefs de quartier peuvent consulter facilement les
+                un suivi précis des mouvements des visiteurs. <br>Les chefs de quartier peuvent consulter facilement les
                 comptes de chaque ménage, visualiser les membres de la famille enregistrés et voir les visiteurs qui ont
-                rendu visite à chaque ménage.
+                rendu visite à chaque ménage.</strong>
               </p>
               <!-- End Profile Edit Form -->
 
