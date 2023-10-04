@@ -12,10 +12,7 @@ def index(request):
     template = 'app/home/index.html'
 
     total_households = Household.objects.all().count()
-    total_member_family = Person.objects.all().count()
-    total_visitors = Visitor.objects.all().count()
-
-    total_persons = total_member_family+total_visitors
+    total_persons = Person.objects.all().count()
 
     masculine_gender_occurence = getMasculineOccurrence()
     feminine_gender_occurence = getFeminineOccurence()
@@ -102,3 +99,13 @@ def getPersonRegisteredPerDay() :
     person_registered_per_day = Person.objects.extra(select={'day': 'date( created_at )'}).values('day').annotate(available=Count('created_at'))
     
     return person_registered_per_day
+
+def user_profil(request):
+    page_title = 'Profil'
+    template = 'app/home/user-profil.html'
+    
+    context = {
+        'page_title': page_title,
+    }
+
+    return render(request, template_name=template, context=context)
