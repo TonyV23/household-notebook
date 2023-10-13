@@ -35,8 +35,8 @@ class Visitor(models.Model):
 
     est_verifie_par_chef_de_menage = models.BooleanField(default=False)
     est_verifie_par_chef_de_quartier = models.BooleanField(default=False)
-    date_arrive = models.DateField(auto_now_add=True)
-    date_depart = models.DateField(blank=True)
+    date_arrive = models.DateTimeField(auto_now_add=True)
+    date_depart = models.DateTimeField(blank=True)
 
     def __str__(self) -> str:
         return f"{self.prenom} {self.nom} (Visiteur)"
