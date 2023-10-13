@@ -1,6 +1,7 @@
 {% extends 'app/layouts/default.html' %}
 
 {% block content %}
+{% load user_tags %}
 
 {% load crispy_forms_tags %}
 
@@ -44,7 +45,9 @@
                                     {{form.relation_avec_chefs_de_menage|as_crispy_field}}
                                     {{form.photo|as_crispy_field}}
                                     {{form.est_verifie_par_chef_de_menage|as_crispy_field}}
+                                    {% if user|user_belongs_to_group:'chef_quarter' %}
                                     {{form.est_verifie_par_chef_de_quartier|as_crispy_field}}
+                                    {% endif %}
                                 </div>
                             </div>
 
