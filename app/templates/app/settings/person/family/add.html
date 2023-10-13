@@ -43,8 +43,10 @@
                                     {{form.numero_telephone|as_crispy_field}}
                                     {{form.relation_avec_chefs_de_menage|as_crispy_field}}
                                     {{form.photo|as_crispy_field}}
+                                    {% if user|user_belongs_to_group:'chef_family' %}
                                     {{form.est_chef_de_menage|as_crispy_field}}
                                     {{form.est_verifie_par_chef_de_menage|as_crispy_field}}
+                                    {% endif %}
                                     {% if user|user_belongs_to_group:'chef_quarter' %}
                                     {{form.est_verifie_par_chef_de_quartier|as_crispy_field}}
                                     {% endif %}
