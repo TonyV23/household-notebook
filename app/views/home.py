@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 
-from app.models import Household, Person, Visitor, Quartier, Profession
+from app.models import Household, Person, Quartier, Profession
 
 
 @login_required(login_url='login')

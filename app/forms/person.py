@@ -11,4 +11,5 @@ class PersonForm (ModelForm):
         exclude = ['created_at', 'created_by']
         widgets = {
             'annee_de_naissance': forms.DateInput(attrs={'type': 'date'}),
+            'date_depart': forms.DateInput(attrs={'type': 'date'}),
         }
