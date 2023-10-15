@@ -15,25 +15,3 @@ class Household(models.Model):
  
     def __str__(self):
         return self.designation
-    
-    # def save(self, *args, **kwargs):
-    #     if not self.id: 
-    #         self.created_by = kwargs.pop('request').user
-    #     super().save(*args, **kwargs)
-
-    # to make the save method working
-
-    # def my_view(request):
-    # if request.method == 'POST':
-    #     form = MyForm(request.POST)
-    #     if form.is_valid():
-    #         instance = form.save(commit=False)
-    #         instance.save(request=request)  # Pass the request object to the save() method
-    #         # Rest of the view logic
-    # else:
-    #     form = MyForm()
-    
-    # context = {
-    #     'form': form
-    # }
-    # return render(request, 'my_template.html', context)
