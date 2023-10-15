@@ -1,4 +1,5 @@
 {% load static %}
+{% load user_tags %}
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
@@ -6,6 +7,16 @@
             <span class="d-none d-lg-block">CAHIER DE MENAGE</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
+        {% if user.is_superuser %}
+        <h6 class="m-3 text-secondary">COMPTE ADMINISTRATEUR</h6>
+        {% endif %}
+        {% if user|user_belongs_to_group:'chef_quarter' %}
+        <h6 class="m-3 text-secondary">COMPTE DU CHEF DE QUARTIER</h6>
+        {% endif %}
+        {% if user|user_belongs_to_group:'chef_family' %}
+        <h6 class="m-3 text-secondary">COMPTE DU CHEF DE FAMILLE</h6>
+        {% endif %}
+        
     </div>
 
     <nav class="header-nav ms-auto">
