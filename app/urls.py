@@ -1,6 +1,6 @@
 from django.urls import path
 
-from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, visitor
+from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, status
 
 urlpatterns = [
     path('', home.index, name ='dashboard'),
@@ -69,13 +69,12 @@ urlpatterns = [
     path('family/update/<int:id>', person.update_family_member, name='update_family_member'),
     path('family/delete/<int:id>', person.delete_family_member, name='delete_family_member'),
 
-
-    path('visitors', visitor.index, name='visitors_overview'),
-    path('visitor/add', visitor.add_visitor, name='add_visitor'),
-    path('visitor/store', visitor.store_visitor, name='store_visitor'),
-    path('visitor/edit/<int:id>', visitor.edit_visitor, name='edit_visitor'),
-    path('visitor/update/<int:id>', visitor.update_visitor, name='update_visitor'),
-    path('visitor/delete/<int:id>', visitor.delete_visitor, name='delete_visitor'),
+    path('status', status.index, name='status_overview'),
+    path('status/add', status.add_status, name='add_status'),
+    path('status/store', status.store_status, name='store_status'),
+    path('status/edit/<int:id>', status.edit_status, name='edit_status'),
+    path('status/update/<int:id>', status.update_status, name='update_status'),
+    path('status/delete/<int:id>', status.delete_status, name='delete_status'),
 
     path('user_profil', home.user_profil, name='user_profil'),
 ]

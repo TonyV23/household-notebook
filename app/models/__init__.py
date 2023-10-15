@@ -3,6 +3,6 @@ from .profession import *
 from .commune import *
 from .zone import *
 from .quartier import *
-from .household import *
+from .status import *
 from .person import *
-from .visitor import *
+from .household import *

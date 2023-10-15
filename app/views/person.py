@@ -10,7 +10,7 @@ from app.forms import PersonForm
 def index(request):
     page_title = 'Membres de famille'
     template = 'app/settings/person/family/index.html'
-    persons_list = Person.objects.all()
+    persons_list = Person.objects.filter(created_by=request.user)
 
     variable = {
         'page_title': page_title,
@@ -74,7 +74,7 @@ def store_family_member(request):
         form = PersonForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Données du membre modifiées !")
+            messages.success(request, "Données du membre enregistrées !")
         else:
             messages.error(request, form.errors)
         return redirect('/family_members')

@@ -11,7 +11,7 @@ class Household(models.Model):
     quartier = models.ForeignKey(Quartier, on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT)
  
     def __str__(self):
         return self.designation
