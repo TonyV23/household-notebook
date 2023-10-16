@@ -11,7 +11,7 @@ def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des menages'
     template = 'app/settings/household/index.html'
-    households_list = Household.objects.all()
+    households_list = Household.objects.filter(created_by=request.user)
     context = {
         'page_title': page_title,
         'households_list': households_list

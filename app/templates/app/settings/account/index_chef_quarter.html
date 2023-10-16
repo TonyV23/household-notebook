@@ -4,6 +4,8 @@
 
 {% load crispy_forms_tags %}
 
+<button onclick="window.location.href='{% url 'new_account_chef_quarter' %}'" class="btn btn-outline-primary mb-2"><i
+    class="bi bi-plus">Ajouter chef de quartier</i></button>
 {% if users %}
 {% comment %} {% if messages %}
 {% for message in messages %}
