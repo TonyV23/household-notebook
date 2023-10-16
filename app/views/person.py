@@ -73,7 +73,9 @@ def store_family_member(request):
     if request.method == 'POST':
         form = PersonForm(request.POST)
         if form.is_valid():
-            form.save()
+            person = form.save(commit=False)
+            person.created_by = request.user  
+            person.save()
             messages.success(request, "Données du membre enregistrées !")
         else:
             messages.error(request, form.errors)

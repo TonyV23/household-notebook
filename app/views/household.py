@@ -56,9 +56,9 @@ def store_household(request):
     if request.method == 'POST':
         form = HouseholdForm(request.POST)
         if form.is_valid():
-            form.save()
-            # instance = form.save(commit=False)
-            # instance.save(request=request)
+            household = form.save(commit=False)
+            household.created_by = request.user
+            household.save()
             messages.success(request, "Menage enregistrée !")
         else:
             messages.error(request, form.errors)
