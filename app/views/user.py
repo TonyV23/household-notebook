@@ -118,7 +118,7 @@ def store_user_chef_quarter(request):
             user.groups.add(group)
             messages.success(request, 'Le compte de '+username+' a été ajouté')
 
-        return redirect('/account/list_chef_family')
+        return redirect('/account/list_chef_quarter')
 
 @login_required(login_url ='login')
 def edit_user(request, id):
