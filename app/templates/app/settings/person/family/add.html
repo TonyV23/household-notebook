@@ -1,6 +1,7 @@
 {% extends 'app/layouts/default.html' %}
 
 {% block content %}
+{% load user_tags %}
 
 {% load crispy_forms_tags %}
 
@@ -28,23 +29,28 @@
                                     {{ form.zone_de_residence|as_crispy_field }}
                                     {{ form.quartier_de_residence|as_crispy_field }}
                                     {{ form.rue|as_crispy_field }}
+                                    {{form.numero_telephone|as_crispy_field}}
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xl-8">
+                                <div class="col-xl-6">
                                     {{form.nom_du_pere|as_crispy_field}}
                                     {{form.nom_de_la_mere|as_crispy_field}}
                                     {{form.lieu_de_naissance|as_crispy_field}}
                                     {{form.annee_de_naissance|as_crispy_field}}
                                     {{form.profession|as_crispy_field}}
                                 </div>
-                                <div class="col-xl-4">
-                                    {{form.numero_telephone|as_crispy_field}}
+                                <div class="col-xl-6">
                                     {{form.relation_avec_chefs_de_menage|as_crispy_field}}
                                     {{form.photo|as_crispy_field}}
+                                    {{form.date_depart|as_crispy_field}}
+                                    {% if user|user_belongs_to_group:'chef_family' %}
                                     {{form.est_chef_de_menage|as_crispy_field}}
                                     {{form.est_verifie_par_chef_de_menage|as_crispy_field}}
+                                    {% endif %}
+                                    {% if user|user_belongs_to_group:'chef_quarter' %}
                                     {{form.est_verifie_par_chef_de_quartier|as_crispy_field}}
+                                    {% endif %}
                                 </div>
                             </div>
 

@@ -15,13 +15,16 @@
     "d'effectuer",
     "déconnecter",
     "delivrance",
+    "départ",
     "Détails",
     "Divin",
     "DUSABE",
     "efficace",
     "enregistrée",
+    "enregistrées",
     "ENREGISTRES",
     "enregistrés",
+    "EXISTANTS",
     "facilement",
     "familles",
     "fournir",
@@ -36,6 +39,7 @@
     "MEMBRE",
     "membres",
     "ménage",
+    "ménages",
     "mesures",
     "modelfields",
     "modifiée",
@@ -72,7 +76,7 @@
     "visualiser"
   ],
   "[python]": {
-    "editor.defaultFormatter": "ms-python.autopep8"
+    "editor.defaultFormatter": "ms-python.python"
   },
   "python.formatting.provider": "none"
 }
