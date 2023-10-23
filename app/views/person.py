@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 from app.models import Person, Household, Province, Commune, Zone, Profession, Quartier
 from app.forms import PersonForm
@@ -14,10 +16,12 @@ def index(request):
         persons_list = Person.objects.filter(created_by=request.user)
     else :
         persons_list = Person.objects.all()
+    households_list = Household.objects.filter(created_by=request.user)
 
     variable = {
         'page_title': page_title,
         'persons_list': persons_list,
+        'households_list': households_list,
     }
 
     return render(
@@ -124,3 +128,10 @@ def delete_family_member(request, id):
     person.delete()
     messages.success(request, "Données du membre supprimée")
     return redirect('/family_members')
+
+@login_required(login_url='login')
+def load_persons(request, household_id):
+    household = Household.objects.get(id=household_id)
+    persons = Person.objects.filter(menage_id=household)
+    html = render_to_string('app/settings/person/family/person.html', {'persons': persons})
+    return HttpResponse(html)

@@ -28,6 +28,7 @@
 
 <section class="section">
     <div class="row">
+        {% if user|user_belongs_to_group:'chef_family' %}
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -73,7 +74,8 @@
 
                                 <td>
                                     {% if family_member.photo %}
-                                    <img src="{{ family_member.photo.url }}" alt="family member" height="50" width="auto">
+                                    <img src="{{ family_member.photo.url }}" alt="family member" height="50"
+                                        width="auto">
                                     {% else %}
                                     <h6 class="text-danger">pas de photo</h6>
                                     {% endif %}
@@ -94,6 +96,22 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% for household in households_list %}
+        <div class="card m-3" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Menage : {{household.designation}}</h5>
+                <p class="card-text"><strong>Province : </strong>{{household.province.province}}</p>
+                <p class="card-text"><strong>Commune : </strong>{{household.commune.commune}}</p>
+                <p class="card-text"><strong>Zone : </strong>{{household.zone.zone}}</p>
+                <p class="card-text"><strong>Quartier : </strong>{{household.quartier.quartier}}</p>
+                <a href="#" class="btn btn-primary" onclick="loadPersons({{ household.id }})"> <i class="bi bi-eye"></i>
+                    Voir les détails</a>
+                <div id="persons-container-{{ household.id }}"></div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
 
@@ -114,6 +132,18 @@
             alertElement.remove();
         }, 1500);
     }, 2000);
+
+    function loadPersons(householdId) {
+        var container = document.getElementById('persons-container-' + householdId);
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/load-persons/' + householdId + '/');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                container.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    }
 
 </script>
 

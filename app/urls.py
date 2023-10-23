@@ -77,4 +77,7 @@ urlpatterns = [
     path('status/delete/<int:id>', status.delete_status, name='delete_status'),
 
     path('user_profil', home.user_profil, name='user_profil'),
+
+    #loading all persons in household
+    path('load-persons/<int:household_id>/', person.load_persons, name='load_persons'), 
 ]
