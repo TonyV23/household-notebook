@@ -10,7 +10,10 @@ from app.forms import PersonForm
 def index(request):
     page_title = 'Membres de famille'
     template = 'app/settings/person/family/index.html'
-    persons_list = Person.objects.filter(created_by=request.user)
+    if request.user.groups.filter(name ='chef_family').exists() :
+        persons_list = Person.objects.filter(created_by=request.user)
+    else :
+        persons_list = Person.objects.all()
 
     variable = {
         'page_title': page_title,
