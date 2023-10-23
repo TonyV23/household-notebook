@@ -106,13 +106,29 @@
                 <p class="card-text"><strong>Commune : </strong>{{household.commune.commune}}</p>
                 <p class="card-text"><strong>Zone : </strong>{{household.zone.zone}}</p>
                 <p class="card-text"><strong>Quartier : </strong>{{household.quartier.quartier}}</p>
-                <a href="#" class="btn btn-primary" onclick="loadPersons({{ household.id }})"> <i class="bi bi-eye"></i>
-                    Voir les détails</a>
-                <div id="persons-container-{{ household.id }}"></div>
+                <button type="button" class="btn btn-primary" onclick="loadPersons({{ household.id }})"
+                    data-bs-toggle="modal" data-bs-target="#personsModal">
+                    <i class="bi bi-eye"></i> Voir les détails
+                </button>
             </div>
         </div>
         {% endfor %}
-    </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="personsModal" tabindex="-1" role="dialog" aria-labelledby="personsModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="personsModalLabel">Personne dans le ménage</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul id="personsList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 </section>
@@ -134,12 +150,19 @@
     }, 2000);
 
     function loadPersons(householdId) {
-        var container = document.getElementById('persons-container-' + householdId);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/load-persons/' + householdId + '/');
         xhr.onload = function () {
             if (xhr.status === 200) {
-                container.innerHTML = xhr.responseText;
+                var personsList = document.getElementById('personsList');
+                personsList.innerHTML = xhr.responseText;
+                var modal = new bootstrap.Modal(document.getElementById('personsModal'), { backdrop: 'static', keyboard: false });
+                modal.show(); // Show the modal
+
+                var closeButton = document.querySelector('#personsModal .btn-close');
+                closeButton.addEventListener('click', function () {
+                    location.reload(); // Reload the page
+                });
             }
         };
         xhr.send();

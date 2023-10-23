@@ -133,5 +133,4 @@ def delete_family_member(request, id):
 def load_persons(request, household_id):
     household = Household.objects.get(id=household_id)
     persons = Person.objects.filter(menage_id=household)
-    html = render_to_string('app/settings/person/family/person.html', {'persons': persons})
-    return HttpResponse(html)
+    return render(request, 'app/settings/person/family/person.html', {'persons': persons})

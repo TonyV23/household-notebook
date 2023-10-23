@@ -1,5 +1,20 @@
-<ul>
-    {% for person in persons %}
-        <li>{{ person.nom }} {{ person.prenom }}</li>
-    {% endfor %}
-</ul>
+{% load static %}
+{% for person in persons %}
+<li>
+    <strong>NOM : </strong>{{ person.nom }} <br>
+    <strong>PRENOM : </strong>{{ person.prenom }} <br>
+    <strong>SEXE : </strong>{{ person.genre }} <br>
+    <strong>N° CARTE ID :</strong>{{ person.numero_carte_id }} <br>
+    <strong>DATE DE NAISSANCE : </strong>{{ person.annee_de_naissance }} <br>
+    <strong>PROFESSION : </strong>{{ person.profession }} <br>
+    <strong>LIEN FAMILIAL : </strong>{{ person.relation_avec_chefs_de_menage }} <br>
+    <strong>DATE DEPART : </strong>{{ person.date_depart }} <br>
+    <strong>VERIFIER PAR CHEF DE MENAGE : </strong>{% if person.est_verifie_par_chef_de_menage %}<img
+        src="{% static 'app/img/icon-yes.svg' %}" alt="">{% else %}<img src="{% static 'app/img/icon-no.svg' %}"
+        alt="">{% endif %}<br>
+    <strong>VERIFIER PAR CHEF DE QUARTIER : </strong>{% if person.est_verifie_par_chef_de_quartier %}<img
+        src="{% static 'app/img/icon-yes.svg' %}" alt="">{% else %}<img src="{% static 'app/img/icon-no.svg' %}"
+        alt="">{% endif %}<br>
+</li>
+<hr>
+{% endfor %}
