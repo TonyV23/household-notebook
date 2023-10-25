@@ -107,13 +107,13 @@
                 <p class="card-text"><strong>Zone : </strong>{{household.zone.zone}}</p>
                 <p class="card-text"><strong>Quartier : </strong>{{household.quartier.quartier}}</p>
                 <div class="row">
-                    <button type="button" class="btn btn-primary" onclick="loadPersons({{ household.id }})"
+                    <button type="button" class="btn btn-success" onclick="loadPersons({{ household.id }})"
                         data-bs-toggle="modal" data-bs-target="#personsModal">
                         <i class="bi bi-eye"></i> Voir les détails
                     </button>
-                    <button type="button" class="btn btn-primary mt-2">
+                    <a href="" type="button" class="btn btn-primary mt-3">
                         <i class="bi bi-card-checklist"></i> Vérifier les membres
-                    </button>
+                    </a>
 
                 </div>
 
