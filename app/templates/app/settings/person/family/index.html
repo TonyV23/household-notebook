@@ -98,18 +98,25 @@
         </div>
         {% endif %}
         {% for household in households_list %}
-        <div class="card m-3" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card m-3" style="width: 22rem;">
+            <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
             <div class="card-body">
-                <h5 class="card-title">Menage : {{household.designation}}</h5>
+                <h5 class="card-title credits">Menage : {{household.designation}}</h5>
                 <p class="card-text"><strong>Province : </strong>{{household.province.province}}</p>
                 <p class="card-text"><strong>Commune : </strong>{{household.commune.commune}}</p>
                 <p class="card-text"><strong>Zone : </strong>{{household.zone.zone}}</p>
                 <p class="card-text"><strong>Quartier : </strong>{{household.quartier.quartier}}</p>
-                <button type="button" class="btn btn-primary" onclick="loadPersons({{ household.id }})"
-                    data-bs-toggle="modal" data-bs-target="#personsModal">
-                    <i class="bi bi-eye"></i> Voir les détails
-                </button>
+                <div class="row">
+                    <button type="button" class="btn btn-primary" onclick="loadPersons({{ household.id }})"
+                        data-bs-toggle="modal" data-bs-target="#personsModal">
+                        <i class="bi bi-eye"></i> Voir les détails
+                    </button>
+                    <button type="button" class="btn btn-primary mt-2">
+                        <i class="bi bi-card-checklist"></i> Vérifier les membres
+                    </button>
+
+                </div>
+
             </div>
         </div>
         {% endfor %}
