@@ -14,7 +14,7 @@ def index(request):
     households_list = Household.objects.filter(created_by=request.user)
     context = {
         'page_title': page_title,
-        'households_list': households_list
+        'households_list': households_list,        
     }
 
     return render(
@@ -104,3 +104,16 @@ def delete_household(request, id):
     household.delete()
     messages.success(request, "Menage supprimée")
     return redirect('/household')
+
+@login_required(login_url='login')
+def preview(request) :
+    page_title = 'Vu d\'ensemble des ménages'
+    template = 'app/settings/household/preview.html'
+    households_list = Household.objects.filter(created_by=request.user)
+
+    context = {
+        'page_title' :page_title,
+        'households_list': households_list
+    }
+
+    return render(request, template_name=template, context=context)
