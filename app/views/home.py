@@ -14,6 +14,10 @@ def index(request):
     total_households = Household.objects.all().count()
     total_persons = Person.objects.all().count()
 
+
+    total_households_in_quarter = Household.objects.filter(created_by=request.user).count()
+    total_persons_in_household = Person.objects.filter(created_by=request.user).count()
+
     masculine_gender_occurence = getMasculineOccurrence()
     feminine_gender_occurence = getFeminineOccurence()
     quarters_occurence = getQuarterOccurence()
@@ -26,6 +30,8 @@ def index(request):
         'template': template,
         'total_households': total_households,
         'total_persons': total_persons,
+        'total_households_in_quarter': total_households_in_quarter,
+        'total_persons_in_household': total_persons_in_household,
         'masculine_gender_occurence': masculine_gender_occurence,
         'feminine_gender_occurence': feminine_gender_occurence,
         'quarters_occurence': quarters_occurence,
