@@ -1,5 +1,7 @@
 {% extends 'app/layouts/default.html' %}
 
+{% load user_tags %}
+
 {% block content %}
 
 <section class="section dashboard">
@@ -48,6 +50,56 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if user|user_belongs_to_group:'chef_quarter' %}
+    <div class="row">
+        <div class="col-xxl-12 col-md-12">
+            <div class="card info-card sales-card">
+
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">MENAGES DANS LE QUARTIER</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-house-door-fill"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{total_households_in_quarter}}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if user|user_belongs_to_group:'chef_family' %}
+    <div class="col-xxl-12 col-md-12">
+        <div class="card info-card revenue-card">
+
+            <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">PERSONNES DANS VOTRE MENAGE</h5>
+
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>{{total_persons_in_household}}</h6>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     {% endif %}

@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 from app.models import Person, Household, Province, Commune, Zone, Profession, Quartier
 from app.forms import PersonForm
@@ -10,11 +12,16 @@ from app.forms import PersonForm
 def index(request):
     page_title = 'Membres de famille'
     template = 'app/settings/person/family/index.html'
-    persons_list = Person.objects.filter(created_by=request.user)
+    if request.user.groups.filter(name ='chef_family').exists() :
+        persons_list = Person.objects.filter(created_by=request.user)
+    else :
+        persons_list = Person.objects.all()
+    households_list = Household.objects.filter(created_by=request.user)
 
     variable = {
         'page_title': page_title,
         'persons_list': persons_list,
+        'households_list': households_list,
     }
 
     return render(

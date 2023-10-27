@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 
-from app.models import Household, Province, Commune, Zone, Quartier
+from app.models import Household, Province, Commune, Zone, Quartier, Person
 from app.forms import HouseholdForm
 
 @login_required(login_url ='login')
@@ -14,7 +14,7 @@ def index(request):
     households_list = Household.objects.filter(created_by=request.user)
     context = {
         'page_title': page_title,
-        'households_list': households_list
+        'households_list': households_list,        
     }
 
     return render(
@@ -104,3 +104,29 @@ def delete_household(request, id):
     household.delete()
     messages.success(request, "Menage supprimée")
     return redirect('/household')
+
+@login_required(login_url='login')
+def preview(request) :
+    page_title = 'Vu d\'ensemble des ménages'
+    template = 'app/settings/household/preview.html'
+    households_list = Household.objects.filter(created_by=request.user)
+
+    context = {
+        'page_title' :page_title,
+        'households_list': households_list
+    }
+
+    return render(request, template_name=template, context=context)
+
+@login_required(login_url='login')
+def load_persons(request, household_id):
+    page_title = "Détails du ménage"
+    household = Household.objects.get(id=household_id)
+    persons_list = Person.objects.filter(menage_id=household)
+    template = 'app/settings/person/family/index.html'
+    context = {
+        'page_title': page_title,
+        'persons_list': persons_list
+    }
+    
+    return render(request, template_name= template, context=context)
