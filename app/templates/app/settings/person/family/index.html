@@ -33,7 +33,6 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{page_title}}</h5>
-
                     <table class="table datatable">
                         <thead>
                             <tr>
@@ -96,47 +95,79 @@
                 </div>
             </div>
         </div>
+
         {% endif %}
-        {% for household in households_list %}
-        <div class="card m-3" style="width: 22rem;">
-            <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-            <div class="card-body">
-                <h5 class="card-title credits">Menage : {{household.designation}}</h5>
-                <p class="card-text"><strong>Province : </strong>{{household.province.province}}</p>
-                <p class="card-text"><strong>Commune : </strong>{{household.commune.commune}}</p>
-                <p class="card-text"><strong>Zone : </strong>{{household.zone.zone}}</p>
-                <p class="card-text"><strong>Quartier : </strong>{{household.quartier.quartier}}</p>
-                <div class="row">
-                    <button type="button" class="btn btn-success" onclick="loadPersons({{ household.id }})"
-                        data-bs-toggle="modal" data-bs-target="#personsModal">
-                        <i class="bi bi-eye"></i> Voir les détails
-                    </button>
-                    <a href="" type="button" class="btn btn-primary mt-3">
-                        <i class="bi bi-card-checklist"></i> Vérifier les membres
-                    </a>
 
+        {% if user|user_belongs_to_group:'chef_quarter' %}
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{page_title}}</h5>
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">ID MENAGE</th>
+                                <th scope="col">NOM</th>
+                                <th scope="col">PRENOM</th>
+                                <th scope="col">NR CARTE ID</th>
+                                <th scope="col">CHEF DE MENAGE</th>
+                                <th scope="col">CHEF DE QUARTIER</th>
+
+                                <th scope="col">PHOTO</th>
+                                <th scope="col">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for family_member in persons_list %}
+                            <tr class="align">
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ family_member.menage.id }}</td>
+                                <td>{{ family_member.nom }}</td>
+                                <td>{{ family_member.prenom }}</td>
+                                <td>{{ family_member.numero_carte_id }}</td>
+                                <td>
+                                    {% if family_member.est_verifie_par_chef_de_menage %}
+                                    <img src="{% static 'app/img/icon-yes.svg' %}" alt="">
+                                    {% else %}
+                                    <img src="{% static 'app/img/icon-no.svg' %}" alt="">
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if family_member.est_verifie_par_chef_de_quartier %}
+                                    <img src="{% static 'app/img/icon-yes.svg' %}" alt="">
+                                    {% else %}
+                                    <img src="{% static 'app/img/icon-no.svg' %}" alt="">
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if family_member.photo %}
+                                    <img src="{{ family_member.photo.url }}" alt="family member" height="50"
+                                        width="auto">
+                                    {% else %}
+                                    <h6 class="text-danger">pas de photo</h6>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'edit_family_member' family_member.id %}"
+                                        style="margin-right: 30px;"><i class="bi bi-pencil"></i></a>
+                                    {% if user|user_belongs_to_group:'chef_family' %}
+                                    <a href="{% url 'delete_family_member' family_member.id %}"
+                                        onclick="return confirm('Voulez-vous vraiment supprimer ?')"><i
+                                            class="bi bi-trash text-danger"></i></a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
         </div>
-        {% endfor %}
 
-        <!-- Modal -->
-        <div class="modal fade" id="personsModal" tabindex="-1" role="dialog" aria-labelledby="personsModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="personsModalLabel">Personne dans le ménage</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="overflow-y: auto;">
-                        <ul id="personsList"></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        {% endif %}
 
 </section>
 

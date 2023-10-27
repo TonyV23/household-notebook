@@ -4,7 +4,7 @@
 {% load user_tags %}
 <section class="section">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     {% if user|user_belongs_to_group:'chef_family' %}
@@ -24,24 +24,12 @@
                             class="bi- bi-eye"></i> Voir les membres de famille</a>
                     {% endif %}
                     {% if user.is_superuser or user|user_belongs_to_group:'chef_quarter' %}
-                    <a href="{% url 'family_members_overview' %}" class="btn btn-outline-primary"> <i
+                    <a href="{% url 'preview_household' %}" class="btn btn-outline-primary"> <i
                             class="bi- bi-eye"></i> Afficher les ménages</a>
                     {% endif %}
                 </div>
             </div>
         </div>
-        {% if user|user_belongs_to_group:'chef_family' %}
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">AJOUTER UN VISITEUR</h5>
-                    <h6 class="card-subtitle mb-2 text-muted"></h6>
-                    <p class="card-text">Un membre de la famille , un employer de maison ou un visiteur simple</p>
-
-                </div>
-            </div>
-        </div>
-        {% endif %}
     </div>
 </section>
 
