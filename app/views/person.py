@@ -128,9 +128,3 @@ def delete_family_member(request, id):
     person.delete()
     messages.success(request, "Données du membre supprimée")
     return redirect('/family_members')
-
-@login_required(login_url='login')
-def load_persons(request, household_id):
-    household = Household.objects.get(id=household_id)
-    persons = Person.objects.filter(menage_id=household)
-    return render(request, 'app/settings/person/family/person.html', {'persons': persons})

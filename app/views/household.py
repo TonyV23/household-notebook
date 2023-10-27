@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 
-from app.models import Household, Province, Commune, Zone, Quartier
+from app.models import Household, Province, Commune, Zone, Quartier, Person
 from app.forms import HouseholdForm
 
 @login_required(login_url ='login')
@@ -117,3 +117,16 @@ def preview(request) :
     }
 
     return render(request, template_name=template, context=context)
+
+@login_required(login_url='login')
+def load_persons(request, household_id):
+    page_title = "Détails du ménage"
+    household = Household.objects.get(id=household_id)
+    persons_list = Person.objects.filter(menage_id=household)
+    template = 'app/settings/person/family/index.html'
+    context = {
+        'page_title': page_title,
+        'persons_list': persons_list
+    }
+    
+    return render(request, template_name= template, context=context)
