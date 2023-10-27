@@ -41,6 +41,7 @@ urlpatterns = [
     path('quartier/delete/<int:id>', quartier.delete_quartier, name ='delete_quartier'),
 
     path('household', household.index, name ='view_household'),
+    path('household/preview', household.preview, name ='preview_household'),
     path('household/add', household.add_household, name ='add_household'),
     path('household/store', household.store_household, name ='store_household'),
     path('household/edit/<int:id>', household.edit_household, name ='edit_household'),
