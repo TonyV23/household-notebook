@@ -9,3 +9,4 @@ from .user import *
 from .error import *
 from .auth import *
 from .person import *
+from .sync import *

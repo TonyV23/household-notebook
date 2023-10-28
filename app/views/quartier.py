@@ -28,9 +28,11 @@ def add_quartier(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter un quartier'
     template = 'app/settings/quartier/add.html'
+    province_id = request.GET.get('id_province')
+    commune_id = request.GET.get('id_commune')
     provinces_list = Province.objects.all()
-    communes_list = Commune.objects.all()
-    zones_list = Zone.objects.all()
+    communes_list = Commune.objects.filter(province_id = province_id)
+    zones_list = Zone.objects.filter(commune_id = commune_id)
 
     if request.method == 'GET':
         form = QuartierForm()

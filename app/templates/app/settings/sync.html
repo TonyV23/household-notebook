@@ -1,0 +1,16 @@
+<option value="">-------</option>
+{% for commune in communes_list %}
+    <option value="{{commune.id}}">{{ commune.commune }}</option>
+{% endfor %}
+
+
+<option value="">-------</option>
+{% for zone in zones_list %}
+    <option value="{{zone.id}}">{{ zone.zone }}</option>
+{% endfor %}
+
+
+<option value="">-------</option>
+{% for quarter in quarters_list %}
+    <option value="{{quarter.id}}">{{ quarter.quartier }}</option>
+{% endfor %}

@@ -28,10 +28,15 @@ def add_household(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter une menage'
     template = 'app/settings/household/add.html'
+
+    province_id = request.GET.get('id_province')
+    commune_id = request.GET.get('id_commune')
+    zone_id = request.GET.get('id_zone')
+
     provinces_list = Province.objects.all()
-    communes_list = Commune.objects.all()
-    zones_list = Zone.objects.all()
-    quartiers_list = Quartier.objects.all()
+    communes_list = Commune.objects.filter(province_id = province_id)
+    zones_list = Zone.objects.filter(commune_id = commune_id)
+    quartiers_list = Quartier.objects.filter(zone_id = zone_id)
 
     if request.method == 'GET':
         form = HouseholdForm()
