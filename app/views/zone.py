@@ -96,7 +96,7 @@ def update_zone(request, id):
 
 @login_required(login_url ='login')
 def delete_zone(request, id):
-    zone = zone.objects.get(pk=id)
+    zone = Zone.objects.get(pk=id)
     zone.delete()
     messages.success(request, "Zone supprimée")
     return redirect('/zone')
