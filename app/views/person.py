@@ -2,8 +2,6 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.template.loader import render_to_string
 
 from app.models import Person, Household, Province, Commune, Zone, Profession, Quartier
 from app.forms import PersonForm
@@ -52,15 +50,10 @@ def add_family_member(request):
     template = 'app/settings/person/family/add.html'
     provinces_list = Province.objects.all()
 
-    province_id = request.GET.get('id_province')
-    commune_id = request.GET.get('id_commune')
-    zone_id = request.GET.get('id_zone')
-
     provinces_list = Province.objects.all()
-    communes_list = Commune.objects.filter(province_id = province_id)
-    zones_list = Zone.objects.filter(commune_id = commune_id)
-    quartiers_list = Quartier.objects.filter(zone_id = zone_id)
-    
+    communes_list = Commune.objects.all()
+    zones_list = Zone.objects.all()
+    quartiers_list = Quartier.objects.all()
     profession_list = Profession.objects.all()
 
     if request.method == 'GET':

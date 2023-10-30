@@ -30,8 +30,7 @@ def add_zone(request):
     page_title = 'Ajouter une zone'
     template = 'app/settings/zone/add.html'
     provinces_list = Province.objects.all()
-    province_id = request.GET.get('id_province')
-    communes_list = Commune.objects.filter(province_id = province_id)
+    communes_list = Commune.objects.all()
 
     if request.method == 'GET':
         form = ZoneForm()
