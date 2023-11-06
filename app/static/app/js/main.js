@@ -3,14 +3,46 @@
 $(function () {
   $("#id_province").on("change", function () {
     id_province = $(this).val();
-    //alert(id_province);
+    alert(id_province);
     $.get(
-      "/distributions/getCommunes",
+      "/settings/sync",
       {
         id_province: id_province,
       },
       function (data, textStatus, jqXHR) {
         $("#id_commune").html(data);
+      }
+    );
+  });
+}); 
+
+$(function () {
+  $("#id_commune").on("change", function () {
+    id_commune = $(this).val();
+    alert(id_commune);
+    $.get(
+      "/settings/sync",
+      {
+        id_commune: id_commune,
+      },
+      function (data, textStatus, jqXHR) {
+        $("#id_zone").html(data);
+      }
+    );
+  });
+}); 
+
+$(function () {
+  $("#id_zone").on("change", function () {
+    id_zone = $(this).val();
+    alert(id_zone);
+    $.get(
+      "/settings/sync",
+      {
+        id_zone: id_zone,
+      },
+      function (data, textStatus, jqXHR) {
+        $("#id_quarter").html(data);
       }
     );
   });

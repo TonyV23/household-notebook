@@ -28,6 +28,7 @@ def add_quartier(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter un quartier'
     template = 'app/settings/quartier/add.html'
+    
     provinces_list = Province.objects.all()
     communes_list = Commune.objects.all()
     zones_list = Zone.objects.all()

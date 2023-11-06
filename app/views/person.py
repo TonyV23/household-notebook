@@ -2,8 +2,6 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.template.loader import render_to_string
 
 from app.models import Person, Household, Province, Commune, Zone, Profession, Quartier
 from app.forms import PersonForm
@@ -50,6 +48,8 @@ def add_family_member(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Nouveau membre de la famille'
     template = 'app/settings/person/family/add.html'
+    provinces_list = Province.objects.all()
+
     provinces_list = Province.objects.all()
     communes_list = Commune.objects.all()
     zones_list = Zone.objects.all()

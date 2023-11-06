@@ -37,10 +37,12 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">ID MENAGE</th>
                                 <th scope="col">NOM</th>
                                 <th scope="col">PRENOM</th>
-                                <th scope="col">NR CARTE ID</th>
+                                <th scope="col">CARTE ID</th>
+                                <th scope="col">DATE ENREGI</th>
+                                <th scope="col">DATE DEPART</th>
+                                <th scope="col">LIEN FAMILIAL</th>
                                 <th scope="col">CHEF DE MENAGE</th>
                                 <th scope="col">CHEF DE QUARTIER</th>
 
@@ -52,10 +54,12 @@
                             {% for family_member in persons_list %}
                             <tr class="align">
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ family_member.menage.id }}</td>
                                 <td>{{ family_member.nom }}</td>
                                 <td>{{ family_member.prenom }}</td>
                                 <td>{{ family_member.numero_carte_id }}</td>
+                                <td>{{ family_member.created_at }}</td>
+                                <td>{{ family_member.date_depart }}</td>
+                                <td>{{ family_member.relation_avec_chefs_de_menage }}</td>
                                 <td>
                                     {% if family_member.est_verifie_par_chef_de_menage %}
                                     <img src="{% static 'app/img/icon-yes.svg' %}" alt="">
@@ -108,10 +112,12 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">ID MENAGE</th>
                                 <th scope="col">NOM</th>
                                 <th scope="col">PRENOM</th>
                                 <th scope="col">NR CARTE ID</th>
+                                <th scope="col">DATE ENREGI</th>
+                                <th scope="col">DATE DEPART</th>
+                                <th scope="col">LIEN FAMILIAL</th>
                                 <th scope="col">CHEF DE MENAGE</th>
                                 <th scope="col">CHEF DE QUARTIER</th>
 
@@ -123,10 +129,12 @@
                             {% for family_member in persons_list %}
                             <tr class="align">
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ family_member.menage.id }}</td>
                                 <td>{{ family_member.nom }}</td>
                                 <td>{{ family_member.prenom }}</td>
                                 <td>{{ family_member.numero_carte_id }}</td>
+                                <td>{{ family_member.created_at }}</td>
+                                <td>{{ family_member.date_depart }}</td>
+                                <td>{{ family_member.relation_avec_chefs_de_menage }}</td>
                                 <td>
                                     {% if family_member.est_verifie_par_chef_de_menage %}
                                     <img src="{% static 'app/img/icon-yes.svg' %}" alt="">

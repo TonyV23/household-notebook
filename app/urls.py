@@ -1,6 +1,6 @@
 from django.urls import path
 
-from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, status
+from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, status, sync
 
 urlpatterns = [
     path('', home.index, name ='dashboard'),
@@ -79,5 +79,8 @@ urlpatterns = [
     path('status/delete/<int:id>', status.delete_status, name='delete_status'),
 
     path('user_profil', home.user_profil, name='user_profil'),
+    
+    #synchronization addressing
+    path('synchronization', sync.synchronization_adresse, name='synchronization_adresse'),
  
 ]
