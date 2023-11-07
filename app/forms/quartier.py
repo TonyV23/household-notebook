@@ -10,7 +10,7 @@ class QuartierForm (ModelForm) :
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # self.fields['province'].queryset = Province.objects.none()
-        self.fields['commune'].queryset = Commune.objects.none()
+        # self.fields['commune'].queryset = Commune.objects.none()
         # self.fields['zone'].queryset = Zone.objects.none()
         
 

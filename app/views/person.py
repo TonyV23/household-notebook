@@ -78,7 +78,8 @@ def add_family_member(request):
 @login_required(login_url ='login')
 def store_family_member(request):
     if request.method == 'POST':
-        form = PersonForm(request.POST)
+        form = PersonForm(request.POST, request.FILES)
+        print(request.POST)
         if form.is_valid():
             person = form.save(commit=False)
             person.created_by = request.user  
@@ -112,11 +113,12 @@ def edit_family_member(request, id):
 @login_required(login_url ='login')
 def update_family_member(request, id):
     if request.method == 'POST':
+        print(request.POST)
         if id == 0:
-            form = PersonForm(request.POST)
+            form = PersonForm(request.POST,request.FILES)
         else:
             person = Person.objects.get(pk=id)
-            form = PersonForm(request.POST, instance=person)
+            form = PersonForm(request.POST,request.FILES, instance=person)
         if form.is_valid():
             form.save()
         messages.success(request, "Données du membre modifiées")
