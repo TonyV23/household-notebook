@@ -24,5 +24,79 @@
         </div>
     </div>
 </section>
+<script>
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getCookie("csrftoken");
+    
+    let province_field = document.getElementById("id_province");
+    let commune_field = document.getElementById("id_commune");
+    let zone_field = document.getElementById("id_zone");
+  
+    province_field.addEventListener("change", (e) => {
+      let province_id = e.target.value;
+      const data = { id: province_id };
+      let url_province = "{% url 'data_commune'%}";
+  
+      // fecthing provinces
+      fetch(url_province, {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          commune_field.innerHTML = `<option value = "" selected>---------------</option>`;
+          for (let i = 0; i < data.length; i++) {
+            commune_field.innerHTML += `<option value = "${data[i]["id"]}">${data[i]["commune"]}</option>`;
+            commune_field.addEventListener('change',(e)=>{
+                console.log(e.target.value,'commune iiiiid');
+                let commune_id=e.target.value
+                
+                const data_c = {id:commune_id}
+                let url_zone="{% url 'data_zone'%}"
+                fetch(
+                  url_zone,{
+                    method:'POST',
+                    headers:{
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': csrftoken
+                    },
+                    body:JSON.stringify(data_c),
+                  }
+                ).then(
+                  response=> response.json()
+                ).then(
+                  data=>{
+                    zone_field.innerHTML = `<option value = "" selected>---------------</option>`
+                   for(let i=0;i<data.length;i++){
+                    zone_field.innerHTML += `<option value = "${data[i]["id"]}">${data[i]["zone"]}</option>`;
+                
+                  }
+                }
+                )
+              })
+            
+          }
+        });
+    });
+  </script>
 
 {% endblock %}

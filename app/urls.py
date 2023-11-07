@@ -32,6 +32,9 @@ urlpatterns = [
     path('zone/edit/<int:id>', zone.edit_zone, name ='edit_zone'),
     path('zone/update/<int:id>', zone.update_zone, name ='update_zone'),
     path('zone/delete/<int:id>', zone.delete_zone, name ='delete_zone'),
+    # path('zone/province',zone.getProvince,name="data_province"),
+    path('zone/commune',zone.getCommune,name="data_commune"),
+    path('zone/zone',zone.getZone,name="data_zone"),
 
     path('quartier', quartier.index, name ='view_quartier'),
     path('quartier/add', quartier.add_quartier, name ='add_quartier'),

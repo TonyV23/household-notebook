@@ -13,3 +13,4 @@ class PersonForm (ModelForm):
             'annee_de_naissance': DateInput(attrs={'type': 'date'}),
             'date_depart': DateInput(attrs={'type': 'date'}),
         }
+        input_formats=['%Y-%m-%d %H:%M:%S']
