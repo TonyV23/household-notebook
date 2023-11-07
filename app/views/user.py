@@ -164,11 +164,18 @@ def update_user(request, id):
 def delete_user(request, id):
     user = User.objects.get(pk=id)
     user.delete()
-    groups = user.groups.all()
-    if groups.filter(name='chef_family').exists():
+
+    connected_user = request.user
+    group = connected_user.groups.all()
+    
+    if group.filter(name='chef_family').exists():
+        messages.success(request, 'Le compte a été supprimé')
         return redirect('/account/list_chef_family')
-    elif groups.filter(name='chef_quarter').exists():
+    
+    elif group.filter(name='chef_quarter').exists():
+        messages.success(request, 'Le compte a été supprimé')
         return redirect('/account/list_chef_quarter')
+    
     messages.success(request, 'Le compte a été supprimé')
     return redirect('/type_account')
 
