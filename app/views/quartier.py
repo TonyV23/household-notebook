@@ -54,6 +54,7 @@ def add_quartier(request):
 def store_quartier(request):
     if request.method == 'POST':
         form = QuartierForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             form.save()
             messages.success(request, "Quartier enregistré !")
@@ -71,6 +72,7 @@ def edit_quartier(request, id):
             form = QuartierForm()
         else:
             quartier = Quartier.objects.get(pk=id)
+            print(quartier)
             form = QuartierForm(instance=quartier)
         context = {
             'form': form,
