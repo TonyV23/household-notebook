@@ -1,7 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-# from django.forms import DateInput
-# from bootstrap_datepicker_plus.widgets import DatePickerInput
+
 
 from app.models import Person
 class PersonForm (ModelForm):
