@@ -35,7 +35,7 @@ class Person (models.Model):
     est_verifie_par_chef_de_quartier = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    date_depart = models.DateField()
+    date_depart = models.DateField(null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self) -> str:
