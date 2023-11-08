@@ -92,3 +92,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
+BOOTSTRAP_DATEPICKER_PLUS = {
+    "template_name": "app/settings/person/family/edit.html",
+}
