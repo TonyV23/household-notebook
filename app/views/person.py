@@ -10,11 +10,16 @@ from app.forms import PersonForm
 def index(request):
     page_title = 'Membres de famille'
     template = 'app/settings/person/family/index.html'
-    persons_list = Person.objects.all()
+    if request.user.groups.filter(name ='chef_family').exists() :
+        persons_list = Person.objects.filter(created_by=request.user)
+    else :
+        persons_list = Person.objects.all()
+    households_list = Household.objects.filter(created_by=request.user)
 
     variable = {
         'page_title': page_title,
         'persons_list': persons_list,
+        'households_list': households_list,
     }
 
     return render(
@@ -44,6 +49,8 @@ def add_family_member(request):
     page_title = 'Nouveau membre de la famille'
     template = 'app/settings/person/family/add.html'
     provinces_list = Province.objects.all()
+
+    provinces_list = Province.objects.all()
     communes_list = Commune.objects.all()
     zones_list = Zone.objects.all()
     quartiers_list = Quartier.objects.all()
@@ -71,10 +78,13 @@ def add_family_member(request):
 @login_required(login_url ='login')
 def store_family_member(request):
     if request.method == 'POST':
-        form = PersonForm(request.POST)
+        form = PersonForm(request.POST, request.FILES)
+        print(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Données du membre modifiées !")
+            person = form.save(commit=False)
+            person.created_by = request.user  
+            person.save()
+            messages.success(request, "Données du membre enregistrées !")
         else:
             messages.error(request, form.errors)
         return redirect('/family_members')
@@ -103,11 +113,12 @@ def edit_family_member(request, id):
 @login_required(login_url ='login')
 def update_family_member(request, id):
     if request.method == 'POST':
+        print(request.POST)
         if id == 0:
-            form = PersonForm(request.POST)
+            form = PersonForm(request.POST,request.FILES)
         else:
             person = Person.objects.get(pk=id)
-            form = PersonForm(request.POST, instance=person)
+            form = PersonForm(request.POST,request.FILES, instance=person)
         if form.is_valid():
             form.save()
         messages.success(request, "Données du membre modifiées")

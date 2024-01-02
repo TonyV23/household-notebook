@@ -1,6 +1,7 @@
 {% extends 'app/layouts/default.html' %}
 
 {% block content %}
+{% load user_tags %}
 
 {% load crispy_forms_tags %}
 
@@ -10,13 +11,55 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{page_title}}</h5>
-                    <form action="{% url 'store_family_member' %}" method="POST" class="mt-3">
+                    <form action="{% url 'store_family_member' %}" method="POST" class="mt-3" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="form-group"> {{ form|crispy}}</div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    {{ form.menage|as_crispy_field }}
+                                    {{ form.nom|as_crispy_field }}
+                                    {{ form.prenom|as_crispy_field }}
+                                    {{ form.genre|as_crispy_field }}
+                                    {{ form.numero_carte_id|as_crispy_field }}
+                                    {{ form.lieu_de_delivrance|as_crispy_field }}
+                                </div>
+                                <div class="col-xl-6">
+                                    {{ form.province_de_residence|as_crispy_field }}
+                                    {{ form.commune_de_residence|as_crispy_field }}
+                                    {{ form.zone_de_residence|as_crispy_field }}
+                                    {{ form.quartier_de_residence|as_crispy_field }}
+                                    {{ form.rue|as_crispy_field }}
+                                    {{form.numero_telephone|as_crispy_field}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    {{form.nom_du_pere|as_crispy_field}}
+                                    {{form.nom_de_la_mere|as_crispy_field}}
+                                    {{form.lieu_de_naissance|as_crispy_field}}
+                                    {{form.annee_de_naissance|as_crispy_field}}
+                                    {{form.profession|as_crispy_field}}
+                                </div>
+                                <div class="col-xl-6">
+                                    {{form.relation_avec_chefs_de_menage|as_crispy_field}}
+                                    {{form.photo|as_crispy_field}}
+                                    {{form.date_depart|as_crispy_field}}
+                                    {% if user|user_belongs_to_group:'chef_family' %}
+                                    {{form.est_chef_de_menage|as_crispy_field}}
+                                    {{form.est_verifie_par_chef_de_menage|as_crispy_field}}
+                                    {% endif %}
+                                    {% if user|user_belongs_to_group:'chef_quarter' %}
+                                    {{form.est_verifie_par_chef_de_quartier|as_crispy_field}}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="text-center mt-3 mb-3">
-                            <button type="submit" style="margin-right: 30px;"
-                                class="btn btn-outline-success"><i class="bi bi-save"></i> Ajouter</button>
-                            <button type="reset" class="btn btn-outline-danger"><i class="bi bi-recycle"></i> Reinitialiser</button>
+                            <button type="submit" style="margin-right: 30px;" class="btn btn-outline-success"><i
+                                    class="bi bi-save"></i> Ajouter</button>
+                            <button type="reset" class="btn btn-outline-danger"><i class="bi bi-recycle"></i>
+                                Reinitialiser</button>
                         </div>
                     </form>
                 </div>
@@ -25,5 +68,79 @@
         </div>
     </div>
 </section>
+<script>
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getCookie("csrftoken");
+    
+    let province_field = document.getElementById("id_province_de_residence");
+    let commune_field = document.getElementById("id_commune_de_residence");
+    let zone_field = document.getElementById("id_zone_de_residence");
+  
+    province_field.addEventListener("change", (e) => {
+      let province_id = e.target.value;
+      const data = { id: province_id };
+      let url_province = "{% url 'data_commune'%}";
+  
+      // fecthing provinces
+      fetch(url_province, {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          commune_field.innerHTML = `<option value = "" selected>---------------</option>`;
+          for (let i = 0; i < data.length; i++) {
+            commune_field.innerHTML += `<option value = "${data[i]["id"]}">${data[i]["commune"]}</option>`;
+            commune_field.addEventListener('change',(e)=>{
+                console.log(e.target.value,'commune iiiiid');
+                let commune_id=e.target.value
+                
+                const data_c = {id:commune_id}
+                let url_zone="{% url 'data_zone'%}"
+                fetch(
+                  url_zone,{
+                    method:'POST',
+                    headers:{
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': csrftoken
+                    },
+                    body:JSON.stringify(data_c),
+                  }
+                ).then(
+                  response=> response.json()
+                ).then(
+                  data=>{
+                    zone_field.innerHTML = `<option value = "" selected>---------------</option>`
+                   for(let i=0;i<data.length;i++){
+                    zone_field.innerHTML += `<option value = "${data[i]["id"]}">${data[i]["zone"]}</option>`;
+                
+                  }
+                }
+                )
+              })
+            
+          }
+        });
+    });
+  </script>
 
 {% endblock %}

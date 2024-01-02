@@ -1,0 +1,29 @@
+{% extends 'app/layouts/default.html' %}
+
+{% block content %}
+
+{% if households_list %}
+<div class="row">
+    {% for household in households_list %}
+    <div class="card m-3" style="width: 20rem; height: 24rem;">
+        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+        <div class="card-body">
+            <h5 class="card-title credits">MENAGE : {{household.designation}}</h5>
+            <p class="card-text"><strong>PROVINCE : </strong>{{household.province.province}}</p>
+            <p class="card-text"><strong>COMMUNE : </strong>{{household.commune.commune}}</p>
+            <p class="card-text"><strong>ZONE : </strong>{{household.zone.zone}}</p>
+            <p class="card-text"><strong>QUARTIER : </strong>{{household.quartier.quartier}}</p>
+            <p class="card-text"><strong>TOTAL PERSONNES : </strong>{{household.person_set.count}}</p>
+            <p class="card-text"><strong>CREE LE : </strong>{{household.created_at}}</p>
+            <a href="{% url 'details_household' household.id %}" type="button" class="btn btn-primary mt-3">
+                <i class="bi bi-eye"></i> Voir les détails
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-center text-danger" style="font-size: 20px; line-height: 1.5;">PAS DE MENAGE ENREGISTREE</p>
+{% endif %}
+
+{% endblock %}

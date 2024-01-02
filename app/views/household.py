@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 
-from app.models import Household, Province, Commune, Zone, Quartier
+from app.models import Household, Province, Commune, Zone, Quartier, Person
 from app.forms import HouseholdForm
 
 @login_required(login_url ='login')
@@ -11,10 +11,10 @@ def index(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Liste des menages'
     template = 'app/settings/household/index.html'
-    households_list = Household.objects.all()
+    households_list = Household.objects.filter(created_by=request.user)
     context = {
         'page_title': page_title,
-        'households_list': households_list
+        'households_list': households_list,        
     }
 
     return render(
@@ -28,6 +28,11 @@ def add_household(request):
     assert isinstance(request, HttpRequest)
     page_title = 'Ajouter une menage'
     template = 'app/settings/household/add.html'
+
+    province_id = request.GET.get('id_province')
+    commune_id = request.GET.get('id_commune')
+    zone_id = request.GET.get('id_zone')
+
     provinces_list = Province.objects.all()
     communes_list = Commune.objects.all()
     zones_list = Zone.objects.all()
@@ -56,9 +61,9 @@ def store_household(request):
     if request.method == 'POST':
         form = HouseholdForm(request.POST)
         if form.is_valid():
-            form.save()
-            # instance = form.save(commit=False)
-            # instance.save(request=request)
+            household = form.save(commit=False)
+            household.created_by = request.user
+            household.save()
             messages.success(request, "Menage enregistrée !")
         else:
             messages.error(request, form.errors)
@@ -104,3 +109,29 @@ def delete_household(request, id):
     household.delete()
     messages.success(request, "Menage supprimée")
     return redirect('/household')
+
+@login_required(login_url='login')
+def preview(request) :
+    page_title = 'Vu d\'ensemble des ménages'
+    template = 'app/settings/household/preview.html'
+    households_list = Household.objects.filter(created_by=request.user)
+
+    context = {
+        'page_title' :page_title,
+        'households_list': households_list
+    }
+
+    return render(request, template_name=template, context=context)
+
+@login_required(login_url='login')
+def load_persons(request, household_id):
+    page_title = "Détails du ménage"
+    household = Household.objects.get(id=household_id)
+    persons_list = Person.objects.filter(menage_id=household)
+    template = 'app/settings/person/family/index.html'
+    context = {
+        'page_title': page_title,
+        'persons_list': persons_list
+    }
+    
+    return render(request, template_name= template, context=context)

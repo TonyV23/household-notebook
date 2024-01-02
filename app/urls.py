@@ -1,8 +1,6 @@
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
 
-from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, visitor
+from app.views import home, person, province, commune, zone, quartier, profession, household, user, auth, status, sync
 
 urlpatterns = [
     path('', home.index, name ='dashboard'),
@@ -34,6 +32,9 @@ urlpatterns = [
     path('zone/edit/<int:id>', zone.edit_zone, name ='edit_zone'),
     path('zone/update/<int:id>', zone.update_zone, name ='update_zone'),
     path('zone/delete/<int:id>', zone.delete_zone, name ='delete_zone'),
+    # path('zone/province',zone.getProvince,name="data_province"),
+    path('zone/commune',zone.getCommune,name="data_commune"),
+    path('zone/zone',zone.getZone,name="data_zone"),
 
     path('quartier', quartier.index, name ='view_quartier'),
     path('quartier/add', quartier.add_quartier, name ='add_quartier'),
@@ -43,6 +44,8 @@ urlpatterns = [
     path('quartier/delete/<int:id>', quartier.delete_quartier, name ='delete_quartier'),
 
     path('household', household.index, name ='view_household'),
+    path('household/preview', household.preview, name ='preview_household'),
+    path('household/details/<int:household_id>', household.load_persons, name ='details_household'),
     path('household/add', household.add_household, name ='add_household'),
     path('household/store', household.store_household, name ='store_household'),
     path('household/edit/<int:id>', household.edit_household, name ='edit_household'),
@@ -71,12 +74,16 @@ urlpatterns = [
     path('family/update/<int:id>', person.update_family_member, name='update_family_member'),
     path('family/delete/<int:id>', person.delete_family_member, name='delete_family_member'),
 
+    path('status', status.index, name='status_overview'),
+    path('status/add', status.add_status, name='add_status'),
+    path('status/store', status.store_status, name='store_status'),
+    path('status/edit/<int:id>', status.edit_status, name='edit_status'),
+    path('status/update/<int:id>', status.update_status, name='update_status'),
+    path('status/delete/<int:id>', status.delete_status, name='delete_status'),
 
-    path('visitors', visitor.index, name='visitors_overview'),
-    path('visitor/add', visitor.add_visitor, name='add_visitor'),
-    path('visitor/store', visitor.store_visitor, name='store_visitor'),
-    path('visitor/edit/<int:id>', visitor.edit_visitor, name='edit_visitor'),
-    path('visitor/update/<int:id>', visitor.update_visitor, name='update_visitor'),
-    path('visitor/delete/<int:id>', visitor.delete_visitor, name='delete_visitor'),
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('user_profil', home.user_profil, name='user_profil'),
+    
+    #synchronization addressing
+    path('synchronization', sync.synchronization_adresse, name='synchronization_adresse'),
+ 
+]

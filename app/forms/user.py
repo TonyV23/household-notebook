@@ -3,14 +3,14 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
 
-class UserForm(forms.ModelForm):
-    password1 = forms.CharField(label='Mot de passe', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirmez le mot de passe', widget=forms.PasswordInput)
+class UserForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-            'username',
+            'first_name',
+            'last_name',
             'email',
+            'username',
             'password1',
             'password2'
         ]
@@ -37,6 +37,8 @@ class UserEditInfoForm(UserChangeForm):
     class Meta:
         model = User
         fields = [
-            'username',
+            'first_name',
+            'last_name',
             'email',
+            'username',
         ]

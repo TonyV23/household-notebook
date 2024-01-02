@@ -17,13 +17,6 @@
         <span>COMPTES</span>
       </a>
     </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="{% url 'view_household' %}">
-        <i class="bi bi-house-door"></i>
-        <span>MENAGES</span>
-      </a>
-    </li>
     {% endif %}
 
 
@@ -88,6 +81,11 @@
         <li>
           <a href="{% url 'view_profession' %}">
             <i class="bi bi-circle"></i><span>Profession</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'status_overview' %}">
+            <i class="bi bi-circle"></i><span>Statut</span>
           </a>
         </li>
       </ul>

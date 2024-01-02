@@ -1,12 +1,22 @@
 {% load static %}
+{% load user_tags %}
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center">
-            <img src="{% static 'app/img/logo.png' %}" alt="">
-            <span class="d-none d-lg-block">G. C MENAGE</span>
+            <span class="d-none d-lg-block">CAHIER DE MENAGE</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
+        {% if user.is_superuser %}
+        <h6 class="m-3 text-secondary">COMPTE ADMINISTRATEUR</h6>
+        {% endif %}
+        {% if user|user_belongs_to_group:'chef_quarter' %}
+        <h6 class="m-3 text-secondary">COMPTE DU CHEF DE QUARTIER</h6>
+        {% endif %}
+        {% if user|user_belongs_to_group:'chef_family' %}
+        <h6 class="m-3 text-secondary">COMPTE DU CHEF DE FAMILLE</h6>
+        {% endif %}
+        
     </div>
 
     <nav class="header-nav ms-auto">
@@ -21,13 +31,12 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="{% static 'app/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">{{user.username}}</span>
+                    <img src="{% static 'app/img/nav-pic.jpg' %}" alt="Profile" class="rounded-circle">
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>{{user.username}}</h6>
+                        <h6>Identifiant du compte :{{user.id}}</h6>
                         <!-- <span>Web Designer</span> -->
                     </li>
                     <li>
@@ -35,7 +44,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profil' %}">
                             <i class="bi bi-person"></i>
                             <span>Mon profil</span>
                         </a>
@@ -50,7 +59,7 @@
 
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
-                            <i class="bi bi-box-arrow-right"></i>
+                            <i class="bi bi-box-arrow-left"></i>
                             <span>Se déconnecter</span>
                         </a>
                     </li>

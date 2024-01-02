@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from django import forms
+from django.forms import DateInput
 
 from app.models import Person
 
@@ -10,5 +10,7 @@ class PersonForm (ModelForm):
         model = Person
         exclude = ['created_at', 'created_by']
         widgets = {
-            'annee_de_naissance': forms.DateInput(attrs={'type': 'date'}),
+            'annee_de_naissance': DateInput(attrs={'type': 'date'}),
+            'date_depart': DateInput(attrs={'type': 'date'}),
         }
+        input_formats=['%Y-%m-%d %H:%M:%S']
