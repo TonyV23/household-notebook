@@ -64,7 +64,7 @@ urlpatterns = [
     path('type_account/delete/<int:id>', user.delete_user, name='delete_user'),
 
     path('login', auth.login_user, name='login'),
-    path('logout', auth.logout_user, name='logout'),
+    path('logout_user', auth.logout_user, name='logout_user'),
 
     path('family_or_visitor', person.person_type, name='family_visitor_overview'),
     path('family_members', person.index, name='family_members_overview'),
