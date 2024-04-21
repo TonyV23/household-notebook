@@ -135,3 +135,60 @@ def load_persons(request, household_id):
     }
     
     return render(request, template_name= template, context=context)
+
+
+@login_required(login_url='login')
+def preview_valid_person(request) :
+    page_title = 'Menages validés'
+    template = 'app/settings/household/preview_valid_person.html'
+    households_list = Household.objects.filter(created_by=request.user, person__est_verifie_par_chef_de_quartier=True)
+
+    context = {
+        'page_title' :page_title,
+        'households_list': households_list
+    }
+
+    return render(request, template_name=template, context=context)
+
+@login_required(login_url='login')
+def preview_invalid_person(request) :
+    page_title = 'Menages non validés'
+    template = 'app/settings/household/preview_invalid_person.html'
+    households_list = Household.objects.filter(created_by=request.user, person__est_verifie_par_chef_de_quartier=False)
+
+    context = {
+        'page_title' :page_title,
+        'households_list': households_list
+    }
+
+    return render(request, template_name=template, context=context)
+
+@login_required(login_url='login')
+def load_person_validated(request,household_id):
+    page_title = "Détails du ménage"
+    template = 'app/settings/person/family/index_valid_person.html'
+
+    household = Household.objects.get(id=household_id)
+    validated_persons_list = Person.objects.filter(menage_id=household, est_verifie_par_chef_de_quartier = 1)
+    
+    context = {
+        'page_title': page_title,
+        'validated_persons_list': validated_persons_list,
+    }
+    
+    return render(request, template_name= template, context=context)
+
+@login_required(login_url='login')
+def load_person_invalidated(request,household_id):
+    page_title = "Détails du ménage"
+    template = 'app/settings/person/family/index_invalid_person.html'
+
+    household = Household.objects.get(id=household_id)
+    invalided_persons_list = Person.objects.filter(menage_id=household, est_verifie_par_chef_de_quartier = 0)
+    
+    context = {
+        'page_title': page_title,
+        'invalided_persons_list': invalided_persons_list,
+    }
+    
+    return render(request, template_name= template, context=context)

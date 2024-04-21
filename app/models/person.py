@@ -30,9 +30,9 @@ class Person (models.Model):
     relation_avec_chefs_de_menage = models.ForeignKey(Status, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='photos/', null=True, blank=True)
 
-    est_chef_de_menage = models.BooleanField(default=False)
-    est_verifie_par_chef_de_menage = models.BooleanField(default=False)
-    est_verifie_par_chef_de_quartier = models.BooleanField(default=False)
+    est_chef_de_menage = models.BooleanField()
+    est_verifie_par_chef_de_menage = models.BooleanField()
+    est_verifie_par_chef_de_quartier = models.BooleanField()
 
     created_at = models.DateTimeField(auto_now_add=True)
     date_depart = models.DateField(null=True, blank=True)

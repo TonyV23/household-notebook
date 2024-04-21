@@ -6,3 +6,4 @@ from .quartier import *
 from .status import *
 from .household import *
 from .person import *
+from .user import *
