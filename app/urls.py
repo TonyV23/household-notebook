@@ -85,5 +85,10 @@ urlpatterns = [
     
     #synchronization addressing
     path('synchronization', sync.synchronization_adresse, name='synchronization_adresse'),
- 
+
+    path('household/preview_valid_household', household.preview_valid_person, name ='preview_valid_household'),
+    path('household/preview_invalid_household', household.preview_invalid_person, name ='preview_invalid_household'),
+    
+    path('household/details/<int:household_id>', household.load_person_validated, name ='details_valid_household'),
+    path('household/details/<int:household_id>', household.load_person_invalidated, name ='details_invalid_household'),
 ]

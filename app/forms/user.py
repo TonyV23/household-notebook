@@ -3,7 +3,12 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
 
+from app.models import Quartier
+from app.models import UserProfile
+
 class UserForm(UserCreationForm):
+
+    quartier = forms.ModelChoiceField(queryset=Quartier.objects.all())
     class Meta:
         model = User
         fields = [
@@ -12,7 +17,8 @@ class UserForm(UserCreationForm):
             'email',
             'username',
             'password1',
-            'password2'
+            'password2',
+            'quartier',
         ]
 
     def clean(self):
@@ -30,6 +36,8 @@ class UserForm(UserCreationForm):
         user.set_password(password)
         if commit:
             user.save()
+            user_profile = UserProfile(user=user, quartier=self.cleaned_data['quartier'])
+            user_profile.save()
         return user
 
 
