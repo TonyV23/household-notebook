@@ -10,6 +10,11 @@ class Person (models.Model):
     gender = (
         ('Male', 'Male'), ('Female', 'Female')
     )
+
+    is_verified = (
+        (1, 'Oui'),
+        (0, 'Non')
+    )
     menage = models.ForeignKey(Household, on_delete=models.CASCADE)
     nom = models.CharField(max_length=15)
     prenom = models.CharField(max_length=15)
@@ -30,9 +35,10 @@ class Person (models.Model):
     relation_avec_chefs_de_menage = models.ForeignKey(Status, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='photos/', null=True, blank=True)
 
-    est_chef_de_menage = models.BooleanField()
-    est_verifie_par_chef_de_menage = models.BooleanField()
-    est_verifie_par_chef_de_quartier = models.BooleanField()
+
+    est_chef_de_menage = models.IntegerField(choices=is_verified, null=True, blank=True)
+    est_verifie_par_chef_de_menage = models.IntegerField(choices=is_verified, null=True, blank=True)
+    est_verifie_par_chef_de_quartier = models.IntegerField(choices=is_verified, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     date_depart = models.DateField(null=True, blank=True)

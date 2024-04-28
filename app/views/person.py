@@ -87,7 +87,7 @@ def store_family_member(request):
             messages.success(request, "Données du membre enregistrées !")
         else:
             messages.error(request, form.errors)
-        return redirect('/family_members')
+        return redirect('/family_or_visitor')
 
 @login_required(login_url ='login')
 def edit_family_member(request, id):
@@ -122,11 +122,11 @@ def update_family_member(request, id):
         if form.is_valid():
             form.save()
         messages.success(request, "Données du membre modifiées")
-        return redirect('/family_members')
+        return redirect('/household/preview')
 
 @login_required(login_url ='login')
 def delete_family_member(request, id):
     person = Person.objects.get(pk=id)
     person.delete()
     messages.success(request, "Données du membre supprimée")
-    return redirect('/family_members')
+    return redirect('/household/preview')
