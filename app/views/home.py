@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.contrib.auth.models import Group
 
 from app.models import Household, Person, Quartier, Profession
 
@@ -25,6 +26,11 @@ def index(request):
     
     person_registered_per_day = getPersonRegisteredPerDay()
 
+    masculine_gender_occurence_by_quarter = getMasculineOccurenceByQuarter(request)
+    feminine_gender_occurence_by_quarter = getFeminineOccurenceByQuarter(request)
+    person_registered_per_day_by_quarter = getPersonRegisteredPerDayByQuarter(request)
+    person_in_quarter = getPersonInQuarter(request)
+
     context = {
         'page_title': page_title,
         'template': template,
@@ -37,6 +43,11 @@ def index(request):
         'quarters_occurence': quarters_occurence,
         'profession_occurence': profession_occurence,
         'person_registered_per_day': person_registered_per_day,
+
+        'masculine_gender_occurence_by_quarter' : masculine_gender_occurence_by_quarter,
+        'feminine_gender_occurence_by_quarter' :  feminine_gender_occurence_by_quarter,
+        'person_registered_per_day_by_quarter' : person_registered_per_day_by_quarter,
+        'person_in_quarter' : person_in_quarter
     }
 
     return render(request, template_name=template, context=context)
@@ -115,3 +126,37 @@ def user_profil(request):
     }
 
     return render(request, template_name=template, context=context)
+
+def getFeminineOccurenceByQuarter(request):
+    user = request.user
+    group = Group.objects.get(name='chef_quarter')
+    if user.groups.filter(name=group).exists():
+        quartier_id = user.userprofile.quartier_id
+        feminine_gender_occurence = Person.objects.filter(genre='Female', quartier_de_residence_id=quartier_id).count()
+        return feminine_gender_occurence
+    
+def getMasculineOccurenceByQuarter(request):
+    user = request.user
+    group = Group.objects.get(name='chef_quarter')
+    if user.groups.filter(name=group).exists():
+        quartier_id = user.userprofile.quartier_id
+        feminine_gender_occurence = Person.objects.filter(genre='Male', quartier_de_residence_id=quartier_id).count()
+        return feminine_gender_occurence
+    
+def getPersonRegisteredPerDayByQuarter(request):
+    user = request.user
+    group = Group.objects.get(name='chef_quarter')
+    if user.groups.filter(name=group).exists():
+        quartier_id = user.userprofile.quartier_id
+        person_registered_per_day = Person.objects.filter(quartier_de_residence=quartier_id).extra(
+            select={'day': 'date(created_at)'}
+        ).values('day').annotate(available=Count('created_at'))
+        return person_registered_per_day
+    
+def getPersonInQuarter(request):
+    user = request.user
+    group = Group.objects.get(name='chef_quarter')
+    if user.groups.filter(name=group).exists():
+        quartier_id = user.userprofile.quartier_id
+        person_in_quarter = Person.objects.filter(quartier_de_residence=quartier_id).count()
+        return person_in_quarter        

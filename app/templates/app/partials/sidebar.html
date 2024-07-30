@@ -33,6 +33,18 @@
         <span>FAMILLE/VISITEURS</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'preview_valid_household' %}">
+        <i class="bi bi-house-door"></i>
+        <span>MENAGES VALIDEES</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'preview_invalid_household' %}">
+        <i class="bi bi-house-door"></i>
+        <span>MENAGES NON VALIDEES</span>
+      </a>
+    </li>
     {% endif %}
 
     {% if user|user_belongs_to_group:'chef_family' %}

@@ -87,7 +87,16 @@ def store_family_member(request):
             messages.success(request, "Données du membre enregistrées !")
         else:
             messages.error(request, form.errors)
-        return redirect('/family_members')
+
+        user_groups = request.user.groups.values_list('name', flat=True)
+        if 'chef_family' in user_groups:
+            return redirect('/family_or_visitor')
+        elif 'chef_quarter' in user_groups:
+            return redirect('/household/preview')
+        else:
+            return redirect('/household/preview')
+        
+    return redirect('/household/preview')
 
 @login_required(login_url ='login')
 def edit_family_member(request, id):
@@ -122,11 +131,25 @@ def update_family_member(request, id):
         if form.is_valid():
             form.save()
         messages.success(request, "Données du membre modifiées")
-        return redirect('/family_members')
+        user_groups = request.user.groups.values_list('name', flat=True)
+        if 'chef_family' in user_groups:
+            return redirect('/family_or_visitor')
+        elif 'chef_quarter' in user_groups:
+            return redirect('/household/preview')
+        else:
+            return redirect('/household/preview')
+        
+    return redirect('/household/preview')
 
 @login_required(login_url ='login')
 def delete_family_member(request, id):
     person = Person.objects.get(pk=id)
     person.delete()
     messages.success(request, "Données du membre supprimée")
-    return redirect('/family_members')
+    user_groups = request.user.groups.values_list('name', flat=True)
+    if 'chef_family' in user_groups:
+        return redirect('/family_or_visitor')
+    elif 'chef_quarter' in user_groups:
+        return redirect('/household/preview')
+    else:
+        return redirect('/household/preview')

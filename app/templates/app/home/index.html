@@ -56,7 +56,7 @@
 
     {% if user|user_belongs_to_group:'chef_quarter' %}
     <div class="row">
-        <div class="col-xxl-12 col-md-12">
+        <div class="col-xxl-6 col-md-4">
             <div class="card info-card sales-card">
 
                 <div class="filter">
@@ -73,6 +73,97 @@
                             <h6>{{total_households_in_quarter}}</h6>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-6 col-md-4">
+            <div class="card info-card revenue-card">
+
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">TOTAL DES CITOYENS</h5>
+
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{person_in_quarter}}</h6>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">ENREGISTREMENT DES CITOYENS PAR JOUR</h5>
+
+                    <!-- Line Chart -->
+                    <canvas id="lineChart" style="max-height: 300px;"></canvas>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector('#lineChart'), {
+                                type: 'line',
+                                data: {
+                                    labels: [{% for person_per_day in person_registered_per_day_by_quarter %} '{{person_per_day.day}}', {% endfor %}],
+                            datasets: [{
+                                label: 'Line Chart',
+                                data: [{% for person_per_day in person_registered_per_day_by_quarter %} '{{person_per_day.available}}', {% endfor %}],
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                      },
+                            options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                  });
+                    </script>
+                    <!-- End Line CHart -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">CITOYENS PAR GENRE</h5>
+
+                    <canvas id="pieChart" style="max-height: 400px;"></canvas>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            new Chart(document.querySelector('#pieChart'), {
+                                type: 'pie',
+                                data: {
+                                    labels: [
+                                        'FEMMES',
+                                        'HOMMES'
+                                    ],
+                                    datasets: [{
+                                        data: [{{ masculine_gender_occurence_by_quarter }}, {{ feminine_gender_occurence_by_quarter }}],
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 205, 86)'
+                                ],
+                                hoverOffset: 4
+                            }]
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -162,13 +253,13 @@
                                     ],
                                     datasets: [{
                                         data: [{{ masculine_gender_occurence }}, {{ feminine_gender_occurence }}],
-                                        backgroundColor: [
-                                            'rgb(255, 99, 132)',
-                                            'rgb(54, 162, 235)',
-                                            'rgb(255, 205, 86)'
-                                        ],
-                                        hoverOffset: 4
-                                    }]
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 205, 86)'
+                                ],
+                                hoverOffset: 4
+                            }]
                                 }
                             });
                         });

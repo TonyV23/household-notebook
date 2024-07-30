@@ -10,6 +10,7 @@ class Person (models.Model):
     gender = (
         ('Male', 'Male'), ('Female', 'Female')
     )
+    
     menage = models.ForeignKey(Household, on_delete=models.CASCADE)
     nom = models.CharField(max_length=15)
     prenom = models.CharField(max_length=15)
